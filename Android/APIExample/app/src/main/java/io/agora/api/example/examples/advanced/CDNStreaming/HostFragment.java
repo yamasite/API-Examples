@@ -323,9 +323,9 @@ public class HostFragment extends BaseFragment {
                         view.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                         // Setup remote video to render
                         engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_HIDDEN, uid));
+                        updateTranscodeLayout();
                     }
                 });
-                updateTranscodeLayout();
             }
         }
 
@@ -352,9 +352,9 @@ public class HostFragment extends BaseFragment {
                     engine.setupRemoteVideo(new VideoCanvas(null, RENDER_MODE_HIDDEN, uid));
                     remoteViews.get(uid).removeAllViews();
                     remoteViews.remove(uid);
+                    updateTranscodeLayout();
                 }
             });
-            updateTranscodeLayout();
         }
 
         @Override
@@ -372,6 +372,7 @@ public class HostFragment extends BaseFragment {
             if(cdnStreaming){
                 engine.leaveChannel();
                 engine.startPreview();
+                engine.setDirectCdnStreamingVideoConfiguration(videoEncoderConfiguration);
                 int ret = startCdnStreaming();
                 if(ret != 0){
                     showLongToast(String.format("startCdnStreaming failed! error code: %d", ret));
