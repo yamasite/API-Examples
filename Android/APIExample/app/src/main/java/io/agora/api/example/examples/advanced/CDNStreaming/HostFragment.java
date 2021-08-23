@@ -35,6 +35,7 @@ import io.agora.rtc2.DirectCdnStreamingMediaOptions;
 import io.agora.rtc2.DirectCdnStreamingState;
 import io.agora.rtc2.IDirectCdnStreamingEventHandler;
 import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.LeaveChannelOptions;
 import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.RtcEngineConfig;
 import io.agora.rtc2.live.LiveTranscoding;
@@ -370,7 +371,9 @@ public class HostFragment extends BaseFragment {
         @Override
         public void onStreamUnpublished(String url) {
             if(cdnStreaming){
-                engine.leaveChannel();
+                LeaveChannelOptions leaveChannelOptions = new LeaveChannelOptions();
+                leaveChannelOptions.stopMicrophoneRecording = false;
+                engine.leaveChannel(leaveChannelOptions);
                 engine.startPreview();
                 engine.setDirectCdnStreamingVideoConfiguration(videoEncoderConfiguration);
                 int ret = startCdnStreaming();

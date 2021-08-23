@@ -17,8 +17,18 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 
 import io.agora.api.example.R;
+import io.agora.api.example.annotation.Example;
 import io.agora.api.example.common.BaseFragment;
 
+import static io.agora.api.example.common.model.Examples.ADVANCED;
+
+@Example(
+        index = 4,
+        group = ADVANCED,
+        name = R.string.item_rtmpstreaming,
+        actionId = R.id.action_mainFragment_to_RTMPStreaming,
+        tipsId = R.string.rtmpstreaming
+)
 public class EntryFragment extends BaseFragment implements View.OnClickListener
 {
     private static final String TAG = EntryFragment.class.getSimpleName();

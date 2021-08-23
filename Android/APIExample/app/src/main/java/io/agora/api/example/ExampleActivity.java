@@ -108,6 +108,9 @@ public class ExampleActivity extends AppCompatActivity {
             case R.id.action_mainFragment_to_RTMPStreaming:
                 fragment = new EntryFragment();
                 break;
+            case R.id.action_mainFragment_to_RTCToRTMP:
+                fragment = new RTMPStreaming();
+                break;
             case R.id.action_mainFragment_to_StreamEncrypt:
                 fragment = new StreamEncrypt();
                 break;

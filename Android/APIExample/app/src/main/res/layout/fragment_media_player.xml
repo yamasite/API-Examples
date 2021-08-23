@@ -114,7 +114,7 @@
             android:layout_weight="1"
             android:hint="@string/channel_id"
             android:singleLine="true"
-            android:digits="@string/chanel_support_char"/>
+            android:inputType="textUri"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/open"

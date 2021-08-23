@@ -41,7 +41,6 @@
         android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:digits="@string/chanel_support_char"
         android:hint="@string/agora_channel_hint" />
 
     <androidx.appcompat.widget.AppCompatButton
