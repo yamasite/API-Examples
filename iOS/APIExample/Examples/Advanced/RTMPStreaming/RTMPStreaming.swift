@@ -214,19 +214,6 @@ class RTMPStreamingHost: BaseViewController {
         }
         else {
             agoraKit.removePublishStreamUrl(streamingUrl)
-            agoraKit.leaveChannel { (stats) -> Void in
-                LogUtils.log(message: "left channel, duration: \(stats.duration)", level: .info)
-                let options = AgoraDirectCdnStreamingMediaOptions()
-                options.publishCameraTrack = .of(true)
-                options.publishMicrophoneTrack = .of(true)
-                let ret = self.agoraKit.startDirectCdnStreaming(self, publishUrl: self.streamingUrl, mediaOptions: options)
-                if ret != 0 {
-                    self.showAlert(title: "Error", message: "startDirectCdnStreaming failed: \(ret)")
-                    self.stopStreaming()
-                }
-                guard let localView = self.videoViews[0] else {return}
-                self.container.layoutStream(views: [localView.videoView])
-            }
         }
     }
     
@@ -364,7 +351,7 @@ class RTMPStreamingAudience: BaseViewController {
         guard let mode = configs["mode"] as? StreamingMode else {return}
         guard let channelName = configs["channelName"] as? String else {return}
         if mode == .agoraChannel {
-            streamingUrl = "rtmp://mdetest.pull.agoramde.agoraio.cn/live/\(channelName)"
+            streamingUrl = "rtmp://mdetest.push.agoramde.agoraio.cn/live/\(channelName)"
             rtcSwitcher.isEnabled = false
             let ret = mediaPlayerKit.open(withAgoraCDN: streamingUrl, startPos: 0)
             print(ret)
@@ -546,6 +533,24 @@ extension RTMPStreamingHost: AgoraRtcEngineDelegate {
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, rtmpStreamingChangedToState url: String, state: AgoraRtmpStreamPublishState, errCode: AgoraRtmpStreamPublishError) {
         self.showAlert(message: "On rtmpStreamingChangedToState, state: \(state.rawValue), errCode: \(errCode.rawValue)")
+    }
+    
+    func rtcEngine(_ engine: AgoraRtcEngineKit, streamUnpublishedWithUrl url: String) {
+        let leaveChannelOption = AgoraLeaveChannelOptions()
+        leaveChannelOption.stopMicrophoneRecording = false
+        agoraKit.leaveChannel(leaveChannelOption)
+        agoraKit.startPreview()
+        agoraKit.setDirectCdnStreamingVideoConfiguration(videoConfig)
+        let options = AgoraDirectCdnStreamingMediaOptions()
+        options.publishCameraTrack = .of(true)
+        options.publishMicrophoneTrack = .of(true)
+        let ret = self.agoraKit.startDirectCdnStreaming(self, publishUrl: self.streamingUrl, mediaOptions: options)
+        if ret != 0 {
+            self.showAlert(title: "Error", message: "startDirectCdnStreaming failed: \(ret)")
+            self.stopStreaming()
+        }
+        guard let localView = self.videoViews[0] else {return}
+        self.container.layoutStream(views: [localView.videoView])
     }
     
     /// callback when a remote user is leaving the channel, note audience in live broadcast mode will NOT trigger this event
