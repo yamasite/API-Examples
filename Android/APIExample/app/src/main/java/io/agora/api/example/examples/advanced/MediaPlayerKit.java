@@ -19,36 +19,25 @@ import androidx.annotation.Nullable;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 
-import io.agora.RtcChannelPublishHelper;
 import io.agora.api.example.MainApplication;
 import io.agora.api.example.R;
 import io.agora.api.example.annotation.Example;
 import io.agora.api.example.common.BaseFragment;
 import io.agora.api.example.utils.CommonUtil;
-import io.agora.mediaplayer.AgoraMediaPlayerKit;
-import io.agora.mediaplayer.AudioFrameObserver;
 import io.agora.mediaplayer.Constants;
-import io.agora.mediaplayer.MediaPlayerObserver;
-import io.agora.mediaplayer.VideoFrameObserver;
-import io.agora.mediaplayer.data.AudioFrame;
-import io.agora.mediaplayer.data.VideoFrame;
+import io.agora.mediaplayer.IMediaPlayer;
+import io.agora.mediaplayer.IMediaPlayerObserver;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
-import io.agora.rtc.mediaio.AgoraDefaultSource;
 import io.agora.rtc.models.ChannelMediaOptions;
 import io.agora.rtc.video.VideoCanvas;
 import io.agora.rtc.video.VideoEncoderConfiguration;
-import io.agora.utils.LogUtil;
 
 import static io.agora.api.example.common.model.Examples.ADVANCED;
 import static io.agora.mediaplayer.Constants.MediaPlayerState.PLAYER_STATE_OPEN_COMPLETED;
-import static io.agora.mediaplayer.Constants.MediaPlayerState.PLAYER_STATE_PLAYING;
 import static io.agora.mediaplayer.Constants.PLAYER_RENDER_MODE_FIT;
 import static io.agora.rtc.video.VideoCanvas.RENDER_MODE_HIDDEN;
-import static io.agora.rtc.video.VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15;
-import static io.agora.rtc.video.VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_ADAPTIVE;
 import static io.agora.rtc.video.VideoEncoderConfiguration.STANDARD_BITRATE;
-import static io.agora.rtc.video.VideoEncoderConfiguration.VD_640x360;
 
 @Example(
         index = 16,
@@ -67,14 +56,13 @@ public class MediaPlayerKit extends BaseFragment implements View.OnClickListener
     private int myUid;
     private FrameLayout fl_local, fl_remote;
 
-    private AgoraMediaPlayerKit agoraMediaPlayerKit;
+    private IMediaPlayer agoraMediaPlayerKit;
     private boolean joined = false;
     private SeekBar progressBar, volumeBar;
     private long playerDuration = 0;
 
     private static final String SAMPLE_MOVIE_URL = "https://webdemo.agora.io/agora-web-showcase/examples/Agora-Custom-VideoSource-Web/assets/sample.mp4";
 
-    RtcChannelPublishHelper rtcChannelPublishHelper = RtcChannelPublishHelper.getInstance();
 
     @Nullable
     @Override
@@ -115,6 +103,8 @@ public class MediaPlayerKit extends BaseFragment implements View.OnClickListener
         pause = view.findViewById(R.id.pause);
         publish = view.findViewById(R.id.publish);
         unpublish = view.findViewById(R.id.unpublish);
+        publish.setVisibility(View.INVISIBLE);
+        unpublish.setVisibility(View.INVISIBLE);
         progressBar = view.findViewById(R.id.ctrl_progress_bar);
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -138,7 +128,6 @@ public class MediaPlayerKit extends BaseFragment implements View.OnClickListener
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 agoraMediaPlayerKit.adjustPlayoutVolume(i);
-                rtcChannelPublishHelper.adjustPublishSignalVolume(i,i);
             }
 
             @Override
@@ -163,68 +152,6 @@ public class MediaPlayerKit extends BaseFragment implements View.OnClickListener
         view.findViewById(R.id.unpublish).setOnClickListener(this);
         fl_local = view.findViewById(R.id.fl_local);
         fl_remote = view.findViewById(R.id.fl_remote);
-        agoraMediaPlayerKit = new AgoraMediaPlayerKit(this.getActivity());
-        agoraMediaPlayerKit.registerPlayerObserver(new MediaPlayerObserver() {
-            @Override
-            public void onPlayerStateChanged(Constants.MediaPlayerState state, Constants.MediaPlayerError error) {
-                LogUtil.i("agoraMediaPlayerKit1 onPlayerStateChanged:" + state + " " + error);
-                if (state.equals(PLAYER_STATE_OPEN_COMPLETED)) {
-                    play.setEnabled(true);
-                    stop.setEnabled(true);
-                    pause.setEnabled(true);
-                    publish.setEnabled(true);
-                    unpublish.setEnabled(true);
-                }
-            }
-
-
-            @Override
-            public void onPositionChanged(final long position) {
-                if (playerDuration > 0) {
-                    final int result = (int) ((float) position / (float) playerDuration * 100);
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setProgress(Long.valueOf(result).intValue());
-                        }
-                    });
-                }
-            }
-
-
-            @Override
-            public void onMetaData(Constants.MediaPlayerMetadataType mediaPlayerMetadataType, byte[] bytes) {
-
-            }
-
-            @Override
-            public void onPlayBufferUpdated(long l) {
-
-            }
-
-            @Override
-            public void onPreloadEvent(String s, Constants.MediaPlayerPreloadEvent mediaPlayerPreloadEvent) {
-
-            }
-
-            @Override
-            public void onPlayerEvent(Constants.MediaPlayerEvent eventCode) {
-                LogUtil.i("agoraMediaPlayerKit1 onEvent:" + eventCode);
-            }
-
-        });
-        agoraMediaPlayerKit.registerVideoFrameObserver(new VideoFrameObserver() {
-            @Override
-            public void onFrame(VideoFrame videoFrame) {
-                LogUtil.i("agoraMediaPlayerKit1 video onFrame :" + videoFrame);
-            }
-        });
-        agoraMediaPlayerKit.registerAudioFrameObserver(new AudioFrameObserver() {
-            @Override
-            public void onFrame(AudioFrame audioFrame) {
-                LogUtil.i("agoraMediaPlayerKit1 audio onFrame :" + audioFrame);
-            }
-        });
     }
 
     @Override
@@ -294,12 +221,6 @@ public class MediaPlayerKit extends BaseFragment implements View.OnClickListener
             agoraMediaPlayerKit.stop();
         } else if (v.getId() == R.id.pause) {
             agoraMediaPlayerKit.pause();
-        } else if (v.getId() == R.id.publish) {
-            rtcChannelPublishHelper.publishAudio();
-            rtcChannelPublishHelper.publishVideo();
-        } else if (v.getId() == R.id.unpublish) {
-            rtcChannelPublishHelper.unpublishAudio();
-            rtcChannelPublishHelper.unpublishVideo();
         }
     }
 
@@ -309,6 +230,10 @@ public class MediaPlayerKit extends BaseFragment implements View.OnClickListener
         if (context == null) {
             return;
         }
+
+        agoraMediaPlayerKit = engine.createMediaPlayer();
+
+        agoraMediaPlayerKit.registerPlayerObserver(iMediaPlayerObserver);
 
         engine.setDefaultAudioRoutetoSpeakerphone(false);
 
@@ -337,9 +262,6 @@ public class MediaPlayerKit extends BaseFragment implements View.OnClickListener
             fl_local.removeAllViews();
         }
         fl_local.addView(surfaceView);
-
-        // attach player to agora rtc kit, so that the media stream can be published
-        rtcChannelPublishHelper.attachPlayerToRtc(agoraMediaPlayerKit, engine);
 
         // set media local play view
         agoraMediaPlayerKit.setView(surfaceView);
@@ -372,6 +294,65 @@ public class MediaPlayerKit extends BaseFragment implements View.OnClickListener
         // Prevent repeated entry
         join.setEnabled(false);
     }
+
+    private final IMediaPlayerObserver iMediaPlayerObserver = new IMediaPlayerObserver() {
+        @Override
+        public void onPlayerStateChanged(Constants.MediaPlayerState mediaPlayerState, Constants.MediaPlayerError mediaPlayerError) {
+            if (mediaPlayerState.equals(PLAYER_STATE_OPEN_COMPLETED)) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        play.setEnabled(true);
+                        stop.setEnabled(true);
+                        pause.setEnabled(true);
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onPositionChanged(long position) {
+            if (playerDuration > 0) {
+                final int result = (int) ((float) position / (float) playerDuration * 100);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setProgress(Long.valueOf(result).intValue());
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onPlayerEvent(Constants.MediaPlayerEvent mediaPlayerEvent, long l, String s) {
+
+        }
+
+        @Override
+        public void onMetaData(Constants.MediaPlayerMetadataType mediaPlayerMetadataType, byte[] bytes) {
+
+        }
+
+        @Override
+        public void onPlayBufferUpdated(long l) {
+
+        }
+
+        @Override
+        public void onPreloadEvent(String s, Constants.MediaPlayerPreloadEvent mediaPlayerPreloadEvent) {
+
+        }
+
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onAgoraCDNTokenNeedRenew() {
+
+        }
+    };
 
     /**
      * IRtcEngineEventHandler is an abstract class providing default implementation.
