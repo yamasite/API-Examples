@@ -6,11 +6,11 @@ target 'APIExample' do
   use_frameworks!
   pod 'Floaty', '~> 4.2.0'  
   pod 'AGEVideoLayout', '~> 1.0.2'
-  pod 'AgoraNGSDK', :path => 'sdk'
+#   pod 'AgoraNGSDK', :path => 'sdk'
 end
 
 target 'Agora-ScreenShare-Extension' do
-  pod 'AgoraNGSDK', :path => 'sdk'
+#   pod 'AgoraNGSDK', :path => 'sdk'
   use_frameworks!
   
 end

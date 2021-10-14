@@ -353,7 +353,7 @@ class RTMPStreamingAudience: BaseViewController {
         if mode == .agoraChannel {
             streamingUrl = "rtmp://mdetest.push.agoramde.agoraio.cn/live/\(channelName)"
             rtcSwitcher.isEnabled = false
-            let ret = mediaPlayerKit.open(withAgoraCDN: streamingUrl, startPos: 0)
+            let ret = mediaPlayerKit.open(withAgoraCDNSrc: streamingUrl, startPos: 0)
             print(ret)
         }
         else {
@@ -434,8 +434,7 @@ class RTMPStreamingAudience: BaseViewController {
     func getCDNChannel(_ channel:CDNChannelInfo) -> UIAlertAction {
         return UIAlertAction(title: channel.channelName, style: .default, handler: {[unowned self] action in
             self.cdnSelector.setTitle(channel.channelName, for: .normal)
-            print(self.mediaPlayerKit.getAgoraCDNIndex())
-            let ret = self.mediaPlayerKit.switchAgoraCDN(channel.index)
+            let ret = mediaPlayerKit.switchAgoraCDNLine(by: channel.index)
             print(ret)
         })
     }
@@ -702,7 +701,7 @@ extension RTMPStreamingAudience: AgoraRtcMediaPlayerDelegate {
                 weakself.mediaPlayerKit.play()
                 guard let mode = weakself.configs["mode"] as? StreamingMode else {return}
                 if (mode == .agoraChannel){
-                    let num = weakself.mediaPlayerKit.getAgoraCDNCount()
+                    let num = weakself.mediaPlayerKit.getAgoraCDNLineCount()
                     if num > 0 {
                         weakself.channelNumber = num
                         weakself.cdnSelectorLabel.isHidden = false

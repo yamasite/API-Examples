@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -95,6 +95,18 @@
 		8407E0942472320800AC5DE8 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		8B43FA3926666D6100261D19 /* SettingsCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B43FA3826666D6100261D19 /* SettingsCells.swift */; };
 		8B9EE79E2665D99500EF6F69 /* AgoraAudioProcessing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8B9EE79D2665D99500EF6F69 /* AgoraAudioProcessing.mm */; };
+		8BD1C98F2717ED2B00A44D8D /* Agoraffmpeg.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9872717ED2200A44D8D /* Agoraffmpeg.xcframework */; };
+		8BD1C9902717ED2B00A44D8D /* Agoraffmpeg.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9872717ED2200A44D8D /* Agoraffmpeg.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8BD1C9922717ED2D00A44D8D /* AgoraRtcCryptoLoader.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9882717ED2200A44D8D /* AgoraRtcCryptoLoader.xcframework */; };
+		8BD1C9932717ED2D00A44D8D /* AgoraRtcCryptoLoader.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9882717ED2200A44D8D /* AgoraRtcCryptoLoader.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8BD1C9942717ED2E00A44D8D /* AgoraRtcKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9892717ED2200A44D8D /* AgoraRtcKit.xcframework */; };
+		8BD1C9952717ED2E00A44D8D /* AgoraRtcKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9892717ED2200A44D8D /* AgoraRtcKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8BD1C9962717ED2F00A44D8D /* AgoraVideoProcess.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C98A2717ED2200A44D8D /* AgoraVideoProcess.xcframework */; };
+		8BD1C9972717ED2F00A44D8D /* AgoraVideoProcess.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C98A2717ED2200A44D8D /* AgoraVideoProcess.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8BD1C9982717ED3500A44D8D /* Agoraffmpeg.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9872717ED2200A44D8D /* Agoraffmpeg.xcframework */; };
+		8BD1C9992717ED3700A44D8D /* AgoraRtcCryptoLoader.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9882717ED2200A44D8D /* AgoraRtcCryptoLoader.xcframework */; };
+		8BD1C99A2717ED3900A44D8D /* AgoraRtcKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9892717ED2200A44D8D /* AgoraRtcKit.xcframework */; };
+		8BD1C99B2717ED3B00A44D8D /* AgoraVideoProcess.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C98A2717ED2200A44D8D /* AgoraVideoProcess.xcframework */; };
 		A7847F922458062900469187 /* StatisticsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7847F912458062900469187 /* StatisticsInfo.swift */; };
 		A7847F942458089E00469187 /* AgoraExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7847F932458089E00469187 /* AgoraExtension.swift */; };
 		A7BD7660247CC6920062A6B3 /* UITypeAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BD765F247CC6920062A6B3 /* UITypeAlias.swift */; };
@@ -123,6 +135,20 @@
 				0339BEB325205B80007D4FDD /* Agora-ScreenShare-Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BD1C9912717ED2B00A44D8D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8BD1C9972717ED2F00A44D8D /* AgoraVideoProcess.xcframework in Embed Frameworks */,
+				8BD1C9932717ED2D00A44D8D /* AgoraRtcCryptoLoader.xcframework in Embed Frameworks */,
+				8BD1C9902717ED2B00A44D8D /* Agoraffmpeg.xcframework in Embed Frameworks */,
+				8BD1C9952717ED2E00A44D8D /* AgoraRtcKit.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -270,6 +296,10 @@
 		8B9EE79B2665D99500EF6F69 /* AgoraAudioCriticalSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgoraAudioCriticalSection.h; sourceTree = "<group>"; };
 		8B9EE79C2665D99500EF6F69 /* AgoraAudioProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgoraAudioProcessing.h; sourceTree = "<group>"; };
 		8B9EE79D2665D99500EF6F69 /* AgoraAudioProcessing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AgoraAudioProcessing.mm; sourceTree = "<group>"; };
+		8BD1C9872717ED2200A44D8D /* Agoraffmpeg.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Agoraffmpeg.xcframework; path = sdk/libs/Agoraffmpeg.xcframework; sourceTree = SOURCE_ROOT; };
+		8BD1C9882717ED2200A44D8D /* AgoraRtcCryptoLoader.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraRtcCryptoLoader.xcframework; path = sdk/libs/AgoraRtcCryptoLoader.xcframework; sourceTree = SOURCE_ROOT; };
+		8BD1C9892717ED2200A44D8D /* AgoraRtcKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraRtcKit.xcframework; path = sdk/libs/AgoraRtcKit.xcframework; sourceTree = SOURCE_ROOT; };
+		8BD1C98A2717ED2200A44D8D /* AgoraVideoProcess.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraVideoProcess.xcframework; path = sdk/libs/AgoraVideoProcess.xcframework; sourceTree = SOURCE_ROOT; };
 		92EACE913B50B28F1588FE03 /* Pods-Agora-ScreenShare-Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Agora-ScreenShare-Extension.release.xcconfig"; path = "Target Support Files/Pods-Agora-ScreenShare-Extension/Pods-Agora-ScreenShare-Extension.release.xcconfig"; sourceTree = "<group>"; };
 		A7847F912458062900469187 /* StatisticsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsInfo.swift; sourceTree = "<group>"; };
 		A7847F932458089E00469187 /* AgoraExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgoraExtension.swift; sourceTree = "<group>"; };
@@ -285,8 +315,12 @@
 			files = (
 				0339BE9D25205B7F007D4FDD /* ReplayKit.framework in Frameworks */,
 				0339BEC625207EA7007D4FDD /* Accelerate.framework in Frameworks */,
+				8BD1C99A2717ED3900A44D8D /* AgoraRtcKit.xcframework in Frameworks */,
+				8BD1C9992717ED3700A44D8D /* AgoraRtcCryptoLoader.xcframework in Frameworks */,
+				8BD1C99B2717ED3B00A44D8D /* AgoraVideoProcess.xcframework in Frameworks */,
 				0339BEC225205D1A007D4FDD /* libios_resampler.a in Frameworks */,
 				CBCDE23FB64E60D6A79F3723 /* Pods_Agora_ScreenShare_Extension.framework in Frameworks */,
+				8BD1C9982717ED3500A44D8D /* Agoraffmpeg.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,7 +328,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BD1C9962717ED2F00A44D8D /* AgoraVideoProcess.xcframework in Frameworks */,
+				8BD1C9922717ED2D00A44D8D /* AgoraRtcCryptoLoader.xcframework in Frameworks */,
+				8BD1C9942717ED2E00A44D8D /* AgoraRtcKit.xcframework in Frameworks */,
 				B9C914453E92C7F49C93E1F5 /* Pods_APIExample.framework in Frameworks */,
+				8BD1C98F2717ED2B00A44D8D /* Agoraffmpeg.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,6 +630,10 @@
 		03D13BCE2448758900B599B3 /* APIExample */ = {
 			isa = PBXGroup;
 			children = (
+				8BD1C9872717ED2200A44D8D /* Agoraffmpeg.xcframework */,
+				8BD1C9882717ED2200A44D8D /* AgoraRtcCryptoLoader.xcframework */,
+				8BD1C9892717ED2200A44D8D /* AgoraRtcKit.xcframework */,
+				8BD1C98A2717ED2200A44D8D /* AgoraVideoProcess.xcframework */,
 				03D13BD52448758900B599B3 /* Main.storyboard */,
 				A7CA48C224553CF600507435 /* Popover.storyboard */,
 				03D13BD32448758900B599B3 /* ViewController.swift */,
@@ -753,6 +795,7 @@
 				03D13BCA2448758900B599B3 /* Resources */,
 				1B6F6CF9B678035E221EAFDE /* [CP] Embed Pods Frameworks */,
 				0339BEBA25205B80007D4FDD /* Embed App Extensions */,
+				8BD1C9912717ED2B00A44D8D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1220,8 +1263,8 @@
 			baseConfigurationReference = FAAC2AEE355D103B9E8527B5 /* Pods-Agora-ScreenShare-Extension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Haifeng Hong (MJP2F92AG6)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JDPG69R49Z;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1241,7 +1284,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "io.agora.sdk.api.example.Agora-ScreenShare-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = AgoraLab2020;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Agora-ScreenShare-Extension/Agora-ScreenShare-Extension-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1255,8 +1298,8 @@
 			baseConfigurationReference = 92EACE913B50B28F1588FE03 /* Pods-Agora-ScreenShare-Extension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Haifeng Hong (MJP2F92AG6)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JDPG69R49Z;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1276,7 +1319,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "io.agora.sdk.api.example.Agora-ScreenShare-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = AgoraLab2020;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Agora-ScreenShare-Extension/Agora-ScreenShare-Extension-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1407,8 +1450,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Haifeng Hong (MJP2F92AG6)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JDPG69R49Z;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1423,7 +1466,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.sdk.api.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = AgoraLab2020;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "APIExample/APIExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1438,8 +1481,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Haifeng Hong (MJP2F92AG6)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JDPG69R49Z;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1454,7 +1497,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.sdk.api.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = AgoraLab2020;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "APIExample/APIExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
