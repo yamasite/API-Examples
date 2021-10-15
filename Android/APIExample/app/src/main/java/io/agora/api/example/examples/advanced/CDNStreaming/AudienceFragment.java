@@ -44,7 +44,7 @@ import static io.agora.rtc2.video.VideoEncoderConfiguration.STANDARD_BITRATE;
 
 public class AudienceFragment extends BaseFragment implements IMediaPlayerObserver {
     private static final String TAG = AudienceFragment.class.getSimpleName();
-    private static final String AGORA_CHANNEL_PREFIX = "rtmp://mdetest.pull.agoramde.agoraio.cn/live/";
+    private static final String AGORA_CHANNEL_PREFIX = "rtmp://mdetest2.pull.agoramde.agoraio.cn/live/";
     private boolean isAgoraChannel = true;
     private boolean rtcStreaming = false;
     private String channel;

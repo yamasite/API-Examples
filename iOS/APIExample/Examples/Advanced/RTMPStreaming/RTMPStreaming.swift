@@ -11,8 +11,8 @@ import UIKit
 import AgoraRtcKit
 import AGEVideoLayout
 
-let CANVAS_WIDTH = 480
-let CANVAS_HEIGHT = 640
+var CANVAS_WIDTH = 480
+var CANVAS_HEIGHT = 640
 
 enum StreamingMode {
     case agoraChannel
@@ -129,14 +129,17 @@ class RTMPStreamingHost: BaseViewController {
         guard let resolution = GlobalSettings.shared.getSetting(key: "resolution")?.selectedOption().value as? CGSize,
               let fps = GlobalSettings.shared.getSetting(key: "fps")?.selectedOption().value as? AgoraVideoFrameRate else {return}
         
+        CANVAS_WIDTH = Int(resolution.height > resolution.width ? resolution.width : resolution.height)
+        CANVAS_HEIGHT = Int(resolution.height > resolution.width ? resolution.height : resolution.width)
         videoConfig = AgoraVideoEncoderConfiguration(size: resolution,
-                                                        frameRate: fps,
+                                                     frameRate: AgoraVideoFrameRate.fps15,
                                                         bitrate: AgoraVideoBitrateStandard,
                                                         orientationMode: .fixedPortrait, mirrorMode: .auto)
         agoraKit.setVideoEncoderConfiguration(videoConfig)
         agoraKit.setDirectCdnStreamingVideoConfiguration(videoConfig)
         agoraKit.setDirectCdnStreamingAudioProfile(.default)
         transcoding.size = CGSize(width: CANVAS_WIDTH, height: CANVAS_HEIGHT);
+        transcoding.videoFramerate = 15
         
         
         // set up local video to render your local camera preview
@@ -351,7 +354,7 @@ class RTMPStreamingAudience: BaseViewController {
         guard let mode = configs["mode"] as? StreamingMode else {return}
         guard let channelName = configs["channelName"] as? String else {return}
         if mode == .agoraChannel {
-            streamingUrl = "rtmp://mdetest.push.agoramde.agoraio.cn/live/\(channelName)"
+            streamingUrl = "rtmp://mdetest2.pull.agoramde.agoraio.cn/live/\(channelName)"
             rtcSwitcher.isEnabled = false
             let ret = mediaPlayerKit.open(withAgoraCDNSrc: streamingUrl, startPos: 0)
             print(ret)

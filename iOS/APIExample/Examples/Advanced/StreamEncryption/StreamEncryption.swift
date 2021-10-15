@@ -1,5 +1,5 @@
 //
-//  JoinChannelVC.swift
+//  StreamEncryption.swift
 //  APIExample
 //
 //  Created by 张乾泽 on 2020/4/17.
@@ -16,7 +16,7 @@ class StreamEncryptionEntry : UIViewController
     @IBOutlet weak var channelTextField: UITextField!
     @IBOutlet weak var encryptSecretField: UITextField!
     @IBOutlet weak var encryptModeBtn: UIButton!
-    var mode:AgoraEncryptionMode = .AES128GCM
+    var mode:AgoraEncryptionMode = .AES128GCM2
     var useCustom:Bool = false
     let identifier = "StreamEncryption"
     
@@ -104,6 +104,7 @@ class StreamEncryptionMain: BaseViewController {
             let config = AgoraEncryptionConfig()
             config.encryptionMode = mode
             config.encryptionKey = secret
+            config.encryptionKdfSalt = getEncryptionSaltFromServer()
             let ret = agoraKit.enableEncryption(true, encryptionConfig: config)
             if ret != 0 {
                 // for errors please take a look at:
@@ -155,6 +156,11 @@ class StreamEncryptionMain: BaseViewController {
         }
     }
     
+    func getEncryptionSaltFromServer() -> Data {
+
+        return "EncryptionKdfSaltInBase64Strings".data(using: .utf8)!
+    }
+
     override func willMove(toParent parent: UIViewController?) {
         if parent == nil {
             // leave channel when exiting the view
