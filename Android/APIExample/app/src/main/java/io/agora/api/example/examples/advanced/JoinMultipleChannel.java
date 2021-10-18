@@ -34,6 +34,8 @@ import io.agora.rtc2.RtcEngineEx;
 import io.agora.rtc2.video.VideoCanvas;
 import io.agora.rtc2.video.VideoEncoderConfiguration;
 
+import java.util.Random;
+
 import static io.agora.api.example.common.model.Examples.ADVANCED;
 import static io.agora.rtc2.video.VideoCanvas.RENDER_MODE_FIT;
 import static io.agora.rtc2.video.VideoCanvas.RENDER_MODE_HIDDEN;
@@ -200,7 +202,7 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
         }
 
         // Create render view by RtcEngine
-        SurfaceView surfaceView = RtcEngine.CreateRendererView(context);
+        SurfaceView surfaceView = new SurfaceView(context);
         if(fl_local.getChildCount() > 0)
         {
             fl_local.removeAllViews();
@@ -260,7 +262,9 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
         ChannelMediaOptions mediaOptions = new ChannelMediaOptions();
         mediaOptions.autoSubscribeAudio = true;
         mediaOptions.autoSubscribeVideo = true;
-        int ret = engine.joinChannelEx(null, channel2, 0, mediaOptions, iRtcEngineEventHandler2, rtcConnection2);
+        rtcConnection2.channelId = channel2;
+        rtcConnection2.localUid = new Random().nextInt(512)+512;
+        int ret = engine.joinChannelEx(null,rtcConnection2,mediaOptions,iRtcEngineEventHandler2);
         return (ret == 0);
     }
 
@@ -313,7 +317,7 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
                     fl_remote2.removeAllViews();
                 }
                 // Create render view by RtcEngine
-                surfaceView = RtcEngine.CreateRendererView(context);
+                surfaceView = new SurfaceView(context);
                 surfaceView.setZOrderMediaOverlay(true);
                 // Add to the remote container
                 fl_remote2.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -489,7 +493,7 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
                     fl_remote.removeAllViews();
                 }
                 // Create render view by RtcEngine
-                surfaceView = RtcEngine.CreateRendererView(context);
+                surfaceView = new SurfaceView(context);
                 surfaceView.setZOrderMediaOverlay(true);
                 // Add to the remote container
                 fl_remote.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

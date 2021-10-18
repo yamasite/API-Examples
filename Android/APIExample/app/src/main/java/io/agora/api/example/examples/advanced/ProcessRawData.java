@@ -1,8 +1,14 @@
 package io.agora.api.example.examples.advanced;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.graphics.*;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,33 +18,26 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
-
-import io.agora.advancedvideo.rawdata.MediaDataAudioObserver;
-import io.agora.advancedvideo.rawdata.MediaDataObserverPlugin;
-import io.agora.advancedvideo.rawdata.MediaDataVideoObserver;
-import io.agora.advancedvideo.rawdata.MediaPreProcessing;
 import io.agora.api.example.MainApplication;
 import io.agora.api.example.R;
 import io.agora.api.example.annotation.Example;
 import io.agora.api.example.common.BaseFragment;
 import io.agora.api.example.utils.CommonUtil;
 import io.agora.api.example.utils.YUVUtils;
-import io.agora.rtc2.ChannelMediaOptions;
-import io.agora.rtc2.Constants;
-import io.agora.rtc2.IRtcEngineEventHandler;
-import io.agora.rtc2.RtcEngine;
-import io.agora.rtc2.RtcEngineConfig;
-import io.agora.rtc2.video.VideoCanvas;
-import io.agora.rtc2.video.VideoEncoderConfiguration;
+import io.agora.base.VideoFrame;
+import io.agora.rtc2.*;
+import io.agora.rtc2.video.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
 
 import static io.agora.api.example.common.model.Examples.ADVANCED;
-import static io.agora.rtc2.Constants.RAW_AUDIO_FRAME_OP_MODE_READ_ONLY;
 import static io.agora.rtc2.video.VideoCanvas.RENDER_MODE_HIDDEN;
 import static io.agora.rtc2.video.VideoEncoderConfiguration.STANDARD_BITRATE;
 
@@ -49,17 +48,15 @@ import static io.agora.rtc2.video.VideoEncoderConfiguration.STANDARD_BITRATE;
         actionId = R.id.action_mainFragment_to_ProcessRawData,
         tipsId = R.string.processrawdata
 )
-public class ProcessRawData extends BaseFragment implements View.OnClickListener, MediaDataVideoObserver,
-        MediaDataAudioObserver {
+public class ProcessRawData extends BaseFragment implements View.OnClickListener {
     private static final String TAG = ProcessRawData.class.getSimpleName();
 
     private FrameLayout fl_local, fl_remote;
-    private Button join, blurBtn;
+    private Button join, snapshotBtn;
     private EditText et_channel;
     private RtcEngine engine;
     private int myUid;
-    private boolean joined = false, blur = true;
-    private MediaDataObserverPlugin mediaDataObserverPlugin;
+    private boolean joined = false, isSnapshot = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,10 +108,10 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         join = view.findViewById(R.id.btn_join);
-        blurBtn = view.findViewById(R.id.btn_blur);
+        snapshotBtn = view.findViewById(R.id.btn_snapshot);
         et_channel = view.findViewById(R.id.et_channel);
         join.setOnClickListener(this);
-        blurBtn.setOnClickListener(this);
+        snapshotBtn.setOnClickListener(this);
         fl_local = view.findViewById(R.id.fl_local);
         fl_remote = view.findViewById(R.id.fl_remote);
     }
@@ -122,20 +119,10 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mediaDataObserverPlugin = MediaDataObserverPlugin.the();
-        MediaPreProcessing.setCallback(mediaDataObserverPlugin);
-        MediaPreProcessing.setVideoCaptureByteBuffer(mediaDataObserverPlugin.byteBufferCapture);
-        MediaPreProcessing.setVideoCaptureByteBuffer(mediaDataObserverPlugin.byteBufferRender);
-        mediaDataObserverPlugin.addVideoObserver(this);
     }
 
     @Override
     public void onDestroy() {
-        if (mediaDataObserverPlugin != null) {
-            mediaDataObserverPlugin.removeVideoObserver(this);
-            mediaDataObserverPlugin.removeAllBuffer();
-        }
-        MediaPreProcessing.releasePoint();
         /**leaveChannel and Destroy the RtcEngine instance*/
         if (engine != null) {
             engine.leaveChannel();
@@ -192,18 +179,9 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
                 join.setText(getString(R.string.join));
             }
         }
-        else if(v.getId() == R.id.btn_blur)
+        else if(v.getId() == R.id.btn_snapshot)
         {
-            if(!blur)
-            {
-                blur = true;
-                blurBtn.setText(getString(R.string.blur));
-            }
-            else
-            {
-                blur = false;
-                blurBtn.setText(getString(R.string.closeblur));
-            }
+            isSnapshot = true;
         }
     }
 
@@ -215,7 +193,7 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
         }
 
         // Create render view by RtcEngine
-        SurfaceView surfaceView = RtcEngine.CreateRendererView(context);
+        SurfaceView surfaceView = new SurfaceView(context);
         // Add to the local container
         fl_local.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         // Setup local video to render your local camera preview
@@ -223,8 +201,6 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
 
         /**In the demo, the default is to enter as the anchor.*/
         engine.setClientRole(IRtcEngineEventHandler.ClientRole.CLIENT_ROLE_BROADCASTER);
-        // Enable video module
-        engine.enableVideo();
         // Setup video encoding configs
         engine.setVideoEncoderConfiguration(new VideoEncoderConfiguration(
                 ((MainApplication)getActivity().getApplication()).getGlobalSettings().getVideoEncodingDimensionObject(),
@@ -234,38 +210,10 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
         ));
         /**Set up to play remote sound with receiver*/
         engine.setDefaultAudioRoutetoSpeakerphone(true);
-        engine.setEnableSpeakerphone(true);
 
-        /**
-         * Sets the audio recording format for the onRecordAudioFrame callback.
-         * sampleRate	Sets the sample rate (samplesPerSec) returned in the onRecordAudioFrame callback, which can be set as 8000, 16000, 32000, 44100, or 48000 Hz.
-         * channel	Sets the number of audio channels (channels) returned in the onRecordAudioFrame callback:
-         * 1: Mono
-         * 2: Stereo
-         * mode	Sets the use mode (see RAW_AUDIO_FRAME_OP_MODE_TYPE) of the onRecordAudioFrame callback.
-         * samplesPerCall	Sets the number of samples returned in the onRecordAudioFrame callback. samplesPerCall is usually set as 1024 for RTMP streaming.
-         * The SDK triggers the onRecordAudioFrame callback according to the sample interval. Ensure that the sample interval = 0.01 (s). And, Sample interval (sec) = samplePerCall/(sampleRate � channel).
-         */
-        engine.setRecordingAudioFrameParameters(4000, 1, RAW_AUDIO_FRAME_OP_MODE_READ_ONLY, 1024);
-
-        /**
-         * Sets the audio playback format for the onPlaybackAudioFrame callback.
-         * sampleRate	Sets the sample rate (samplesPerSec) returned in the onRecordAudioFrame callback, which can be set as 8000, 16000, 32000, 44100, or 48000 Hz.
-         * channel	Sets the number of audio channels (channels) returned in the onRecordAudioFrame callback:
-         * 1: Mono
-         * 2: Stereo
-         * mode	Sets the use mode (see RAW_AUDIO_FRAME_OP_MODE_TYPE) of the onRecordAudioFrame callback.
-         * samplesPerCall	Sets the number of samples returned in the onRecordAudioFrame callback. samplesPerCall is usually set as 1024 for RTMP streaming.
-         * The SDK triggers the onRecordAudioFrame callback according to the sample interval. Ensure that the sample interval = 0.01 (s). And, Sample interval (sec) = samplePerCall/(sampleRate � channel).
-         */
-        engine.setPlaybackAudioFrameParameters(4000, 1, RAW_AUDIO_FRAME_OP_MODE_READ_ONLY, 1024);
-
-        /**
-         * Sets the mixed audio format for the onMixedAudioFrame callback.
-         * sampleRate	Sets the sample rate (samplesPerSec) returned in the onMixedAudioFrame callback, which can be set as 8000, 16000, 32000, 44100, or 48000 Hz.
-         * samplesPerCall	Sets the number of samples (samples) returned in the onMixedAudioFrame callback. samplesPerCall is usually set as 1024 for RTMP streaming.
-         */
-        engine.setMixedAudioFrameParameters(8000, 1, 1024);
+        int ret = engine.registerVideoFrameObserver(iVideoFrameObserver);
+        // Enable video module should be after calling registerVideoFrameObserver
+        engine.enableVideo();
 
         /**Please configure accessToken in the string_config file.
          * A temporary token generated in Console. A temporary token is valid for 24 hours. For details, see
@@ -283,6 +231,7 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
         ChannelMediaOptions option = new ChannelMediaOptions();
         option.autoSubscribeAudio = true;
         option.autoSubscribeVideo = true;
+        option.publishCameraTrack = true;
         int res = engine.joinChannel(accessToken, channelId, 0, option);
         if (res != 0) {
             // Usually happens with invalid parameters
@@ -295,6 +244,103 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
         // Prevent repeated entry
         join.setEnabled(false);
     }
+
+    private final IVideoEncodedImageReceiver iVideoEncodedImageReceiver = new IVideoEncodedImageReceiver() {
+        @Override
+        public boolean OnEncodedVideoImageReceived(ByteBuffer byteBuffer, EncodedVideoFrameInfo encodedVideoFrameInfo) {
+            Log.i(TAG, "OnEncodedVideoImageReceived");
+            return false;
+        }
+    };
+
+    private final IVideoFrameObserver iVideoFrameObserver = new IVideoFrameObserver() {
+        @Override
+        public boolean onCaptureVideoFrame(VideoFrame videoFrame) {
+            Log.i(TAG, "OnEncodedVideoImageReceived"+Thread.currentThread().getName());
+            if(isSnapshot){
+                isSnapshot = false;
+
+                // get image bitmap
+//                VideoFrame.I420Buffer buffer = videoFrame.getBuffer().toI420();
+//                ByteBuffer ib = ByteBuffer.allocate(videoFrame.getBuffer().getHeight() * videoFrame.getBuffer().getWidth() * 2);
+//                ib.put(buffer.getDataY());
+//                ib.put(buffer.getDataU());
+//                ib.put(buffer.getDataV());
+//                YuvImage yuvImage = new YuvImage(ib.array(),
+//                        ImageFormat.NV21, videoFrame.getBuffer().getWidth(), videoFrame.getBuffer().getHeight(), null);
+//                ByteArrayOutputStream out = new ByteArrayOutputStream();
+//                yuvImage.compressToJpeg(new Rect(0, 0,
+//                        videoFrame.getBuffer().getWidth(), videoFrame.getBuffer().getHeight()), 50, out);
+//                byte[] imageBytes = out.toByteArray();
+//                Bitmap bm = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+                VideoFrame.Buffer buffer = videoFrame.getBuffer();
+
+                VideoFrame.I420Buffer i420Buffer = buffer.toI420();
+                int width = i420Buffer.getWidth();
+                int height = i420Buffer.getHeight();
+
+                ByteBuffer bufferY = i420Buffer.getDataY();
+                ByteBuffer bufferU = i420Buffer.getDataU();
+                ByteBuffer bufferV = i420Buffer.getDataV();
+
+                byte[] i420 = YUVUtils.toWrappedI420(bufferY, bufferU, bufferV, width, height);
+
+                Bitmap bitmap = YUVUtils.NV21ToBitmap(getContext(),
+                        YUVUtils.I420ToNV21(i420, width, height),
+                        width,
+                        height);
+
+                Matrix matrix = new Matrix();
+                matrix.setRotate(270);
+                // 围绕原地进行旋转
+                Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
+                // save to file
+                saveBitmap2Gallery(newBitmap);
+
+                bitmap.recycle();
+                //别忘了释放
+                i420Buffer.release();
+
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onScreenCaptureVideoFrame(VideoFrame videoFrame) {
+            return false;
+        }
+
+        @Override
+        public boolean onMediaPlayerVideoFrame(VideoFrame videoFrame, int i) {
+            return false;
+        }
+
+        @Override
+        public boolean onRenderVideoFrame(String s, int i, VideoFrame videoFrame) {
+            return false;
+        }
+
+        @Override
+        public int getVideoFrameProcessMode() {
+            return 0;
+        }
+
+        @Override
+        public int getVideoFormatPreference() {
+            return 1;
+        }
+
+        @Override
+        public int getRotationApplied() {
+            return 0;
+        }
+
+        @Override
+        public boolean getMirrorApplied() {
+            return false;
+        }
+    };
 
     /**
      * IRtcEngineEventHandler is an abstract class providing default implementation.
@@ -356,13 +402,10 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
             }
             handler.post(() ->
             {
-                if (mediaDataObserverPlugin != null) {
-                    mediaDataObserverPlugin.addDecodeBuffer(uid);
-                }
 
                 /**Display remote video stream*/
                 // Create render view by RtcEngine
-                SurfaceView surfaceView = RtcEngine.CreateRendererView(context);
+                SurfaceView surfaceView = new SurfaceView(context);
                 surfaceView.setZOrderMediaOverlay(true);
                 if (fl_remote.getChildCount() > 0) {
                     fl_remote.removeAllViews();
@@ -392,9 +435,6 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaDataObserverPlugin != null) {
-                        mediaDataObserverPlugin.removeDecodeBuffer(uid);
-                    }
                     /**Clear render view
                      Note: The video will stay at its last frame, to completely remove it you will need to
                      remove the SurfaceView from its parent*/
@@ -404,88 +444,63 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
         }
     };
 
-    @Override
-    public void onCaptureVideoFrame(byte[] data, int frameType, int width, int height, int bufferLength, int yStride, int uStride, int vStride, int rotation, long renderTimeMs) {
-        /**You can do some processing on the video frame here*/
-        Log.e(TAG, "onCaptureVideoFrame0");
-        if(blur)
-        {return;}
-        Bitmap bmp = YUVUtils.blur(getContext(), YUVUtils.i420ToBitmap(width, height, rotation, bufferLength, data, yStride, uStride, vStride), 10);
-        System.arraycopy(YUVUtils.bitmapToI420(width, height, bmp), 0, data, 0, bufferLength);
-    }
+    public void saveBitmap2Gallery(Bitmap bm){
+        long currentTime = System.currentTimeMillis();
 
-    @Override
-    public void onRenderVideoFrame(int uid, byte[] data, int frameType, int width, int height, int bufferLength, int yStride, int uStride, int vStride, int rotation, long renderTimeMs) {
-        if(blur)
-        {return;}
-        Bitmap bmp = YUVUtils.blur(getContext(), YUVUtils.i420ToBitmap(width, height, rotation, bufferLength, data, yStride, uStride, vStride), 10);
-        System.arraycopy(YUVUtils.bitmapToI420(width, height, bmp), 0, data, 0, bufferLength);
-    }
+        // name the file
+        String imageFileName = "IMG_AGORA_"+ currentTime + ".jpg";
+        String imageFilePath;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            imageFilePath = Environment.DIRECTORY_PICTURES + File.separator + "Agora" + File.separator;
+        else imageFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()
+                + File.separator + "Agora"+ File.separator;
 
-    /**
-     * Retrieves the recorded audio frame.
-     * @param audioFrameType only support FRAME_TYPE_PCM16
-     * @param samples The number of samples per channel in the audio frame.
-     * @param bytesPerSample The number of bytes per audio sample, which is usually 16-bit (2-byte).
-     * @param channels The number of audio channels.
-     *                      1: Mono
-     *                      2: Stereo (the data is interleaved)
-     * @param samplesPerSec The sample rate.
-     * @param renderTimeMs The timestamp of the external audio frame.
-     * @param bufferLength audio frame size*/
-    @Override
-    public void onRecordAudioFrame(byte[] data, int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, long renderTimeMs, int bufferLength) {
+        // write to file
 
-    }
+        OutputStream outputStream;
+        ContentResolver resolver = requireContext().getContentResolver();
+        ContentValues newScreenshot = new ContentValues();
+        Uri insert;
+        newScreenshot.put(MediaStore.Images.ImageColumns.DATE_ADDED,currentTime);
+        newScreenshot.put(MediaStore.Images.ImageColumns.DISPLAY_NAME, imageFileName);
+        newScreenshot.put(MediaStore.Images.ImageColumns.MIME_TYPE, "image/jpg");
+        newScreenshot.put(MediaStore.Images.ImageColumns.WIDTH, bm.getWidth());
+        newScreenshot.put(MediaStore.Images.ImageColumns.HEIGHT, bm.getHeight());
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                newScreenshot.put(MediaStore.Images.ImageColumns.RELATIVE_PATH,imageFilePath);
+            }else{
+                // make sure the path is existed
+                File imageFileDir = new File(imageFilePath);
+                if(!imageFileDir.exists()){
+                    boolean mkdir = imageFileDir.mkdirs();
+                    if(!mkdir) {
+                        showLongToast("save failed, error: cannot create folder. Make sure app has the permission.");
+                        return;
+                    }
+                }
+                newScreenshot.put(MediaStore.Images.ImageColumns.DATA, imageFilePath+imageFileName);
+                newScreenshot.put(MediaStore.Images.ImageColumns.TITLE, imageFileName);
+            }
 
-    /**
-     * Retrieves the audio playback frame for getting the audio.
-     * @param audioFrameType only support FRAME_TYPE_PCM16
-     * @param samples The number of samples per channel in the audio frame.
-     * @param bytesPerSample The number of bytes per audio sample, which is usually 16-bit (2-byte).
-     * @param channels The number of audio channels.
-     *                      1: Mono
-     *                      2: Stereo (the data is interleaved)
-     * @param samplesPerSec The sample rate.
-     * @param renderTimeMs The timestamp of the external audio frame.
-     * @param bufferLength audio frame size*/
-    @Override
-    public void onPlaybackAudioFrame(byte[] data, int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, long renderTimeMs, int bufferLength) {
+            // insert a new image
+            insert = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, newScreenshot);
+            // write data
+            outputStream = resolver.openOutputStream(insert);
 
-    }
+            bm.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
+            outputStream.flush();
+            outputStream.close();
 
+            newScreenshot.clear();
+            newScreenshot.put(MediaStore.Images.ImageColumns.SIZE, new File(imageFilePath).length());
+            resolver.update(insert, newScreenshot, null, null);
 
-    /**
-     * Retrieves the audio frame of a specified user before mixing.
-     * The SDK triggers this callback if isMultipleChannelFrameWanted returns false.
-     * @param uid remote user id
-     * @param audioFrameType only support FRAME_TYPE_PCM16
-     * @param samples The number of samples per channel in the audio frame.
-     * @param bytesPerSample The number of bytes per audio sample, which is usually 16-bit (2-byte).
-     * @param channels The number of audio channels.
-     *                      1: Mono
-     *                      2: Stereo (the data is interleaved)
-     * @param samplesPerSec The sample rate.
-     * @param renderTimeMs The timestamp of the external audio frame.
-     * @param bufferLength audio frame size*/
-    @Override
-    public void onPlaybackAudioFrameBeforeMixing(int uid, byte[] data, int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, long renderTimeMs, int bufferLength) {
-
-    }
-
-    /**
-     * Retrieves the mixed recorded and playback audio frame.
-     * @param audioFrameType only support FRAME_TYPE_PCM16
-     * @param samples The number of samples per channel in the audio frame.
-     * @param bytesPerSample The number of bytes per audio sample, which is usually 16-bit (2-byte).
-     * @param channels The number of audio channels.
-     *                      1: Mono
-     *                      2: Stereo (the data is interleaved)
-     * @param samplesPerSec The sample rate.
-     * @param renderTimeMs The timestamp of the external audio frame.
-     * @param bufferLength audio frame size*/
-    @Override
-    public void onMixedAudioFrame(byte[] data, int audioFrameType, int samples, int bytesPerSample, int channels, int samplesPerSec, long renderTimeMs, int bufferLength) {
+            showLongToast("save success, you can view it in gallery");
+        } catch (Exception e) {
+            showLongToast("save failed, error: "+ e.getMessage());
+            e.printStackTrace();
+        }
 
     }
 }

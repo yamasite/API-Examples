@@ -440,7 +440,7 @@ public class HostFragment extends BaseFragment {
                 @Override
                 public void run() {
                     switch (directCdnStreamingState) {
-                        case RUNNING:
+                        case STARTED:
                             streamingButton.setText(R.string.stop_streaming);
                             cdnStreaming = true;
                             break;
@@ -471,11 +471,6 @@ public class HostFragment extends BaseFragment {
                     rtcSwitcher.setEnabled(true);
                 }
             });
-        }
-
-        @Override
-        public void onDirectCdnStreamingStats(io.agora.rtc2.DirectCdnStreamingStats directCdnStreamingStats) {
-
         }
     };
 

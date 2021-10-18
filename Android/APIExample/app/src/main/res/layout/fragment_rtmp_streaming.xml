@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="transcode"/>
+                android:text="是否转码"/>
 
             <Switch
                 android:id="@+id/transCode_Switch"
@@ -93,7 +93,7 @@
             android:layout_weight="1"
             android:hint="@string/url"
             android:singleLine="true"
-            android:text="" />
+            android:text="rtmp://47.92.91.240:1935/stream/room0" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_publish"

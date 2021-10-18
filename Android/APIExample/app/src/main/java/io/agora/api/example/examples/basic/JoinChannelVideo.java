@@ -21,6 +21,7 @@ import com.yanzhenjie.permission.runtime.Permission;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import io.agora.api.example.common.Constant;
 import io.agora.api.example.MainApplication;
 import io.agora.api.example.R;
 import io.agora.api.example.annotation.Example;
@@ -33,6 +34,7 @@ import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.RtcEngineConfig;
 import io.agora.rtc2.video.VideoCanvas;
 import io.agora.rtc2.video.VideoEncoderConfiguration;
+import io.agora.rtc2.video.WatermarkOptions;
 
 import static io.agora.api.example.common.model.Examples.BASIC;
 import static io.agora.rtc2.Constants.RENDER_MODE_HIDDEN;
@@ -200,7 +202,7 @@ public class JoinChannelVideo extends BaseFragment implements View.OnClickListen
         }
 
         // Create render view by RtcEngine
-        SurfaceView surfaceView = RtcEngine.CreateRendererView(context);
+        SurfaceView surfaceView = new SurfaceView(context);
         if(fl_local.getChildCount() > 0)
         {
             fl_local.removeAllViews();
@@ -223,6 +225,15 @@ public class JoinChannelVideo extends BaseFragment implements View.OnClickListen
                 STANDARD_BITRATE,
                 VideoEncoderConfiguration.ORIENTATION_MODE.valueOf(((MainApplication)getActivity().getApplication()).getGlobalSettings().getVideoEncodingOrientation())
         ));
+
+        // Setup watermark options
+        WatermarkOptions watermarkOptions = new WatermarkOptions();
+        int size = ((MainApplication)getActivity().getApplication()).getGlobalSettings().getVideoEncodingDimensionObject().width / 6;
+        int height = ((MainApplication)getActivity().getApplication()).getGlobalSettings().getVideoEncodingDimensionObject().height;
+        watermarkOptions.positionInPortraitMode = new WatermarkOptions.Rectangle(10,height/2, size, size);
+        watermarkOptions.positionInLandscapeMode = new WatermarkOptions.Rectangle(10,height/2, size, size);
+        watermarkOptions.visibleInPreview = false;
+        engine.addVideoWatermark(Constant.WATER_MARK_FILE_PATH, watermarkOptions);
 
         /**Please configure accessToken in the string_config file.
          * A temporary token generated in Console. A temporary token is valid for 24 hours. For details, see
@@ -408,21 +419,19 @@ public class JoinChannelVideo extends BaseFragment implements View.OnClickListen
                 return;
             }
             else{
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        /**Display remote video stream*/
-                        SurfaceView surfaceView = null;
-                        // Create render view by RtcEngine
-                        surfaceView = RtcEngine.CreateRendererView(context);
-                        surfaceView.setZOrderMediaOverlay(true);
-                        ViewGroup view = getAvailableView();
-                        remoteViews.put(uid, view);
-                        // Add to the remote container
-                        view.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                        // Setup remote video to render
-                        engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_HIDDEN, uid));
-                    }
+                handler.post(() ->
+                {
+                    /**Display remote video stream*/
+                    SurfaceView surfaceView = null;
+                    // Create render view by RtcEngine
+                    surfaceView = new SurfaceView(context);
+                    surfaceView.setZOrderMediaOverlay(true);
+                    ViewGroup view = getAvailableView();
+                    remoteViews.put(uid, view);
+                    // Add to the remote container
+                    view.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    // Setup remote video to render
+                    engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_HIDDEN, uid));
                 });
             }
         }

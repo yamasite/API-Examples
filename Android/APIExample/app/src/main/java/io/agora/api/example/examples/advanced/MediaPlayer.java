@@ -25,6 +25,7 @@ import io.agora.api.example.common.BaseFragment;
 import io.agora.api.example.utils.CommonUtil;
 import io.agora.mediaplayer.IMediaPlayer;
 import io.agora.mediaplayer.IMediaPlayerObserver;
+import io.agora.mediaplayer.data.SrcInfo;
 import io.agora.rtc2.ChannelMediaOptions;
 import io.agora.rtc2.Constants;
 import io.agora.rtc2.IRtcEngineEventHandler;
@@ -140,7 +141,7 @@ public class MediaPlayer extends BaseFragment implements View.OnClickListener, I
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 Log.e(TAG, "progressBar onStopTrackingTouch " + seekBar.getProgress());
-                mediaPlayer.seek(seekBar.getProgress());
+                mediaPlayer.seek(mediaPlayer.getDuration() * seekBar.getProgress() / 100);
             }
 
         });
@@ -456,7 +457,7 @@ public class MediaPlayer extends BaseFragment implements View.OnClickListener, I
                     fl_remote.removeAllViews();
                 }
                 // Create render view by RtcEngine
-                surfaceView = RtcEngine.CreateRendererView(context);
+                surfaceView = new SurfaceView(context);
                 surfaceView.setZOrderMediaOverlay(true);
                 // Add to the remote container
                 fl_remote.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -571,7 +572,17 @@ public class MediaPlayer extends BaseFragment implements View.OnClickListener, I
     }
 
     @Override
-    public void onAgoraCDNTokenNeedRenew() {
+    public void onAgoraCDNTokenWillExpire() {
+
+    }
+
+    @Override
+    public void onPlayerSrcInfoChanged(SrcInfo srcInfo, SrcInfo srcInfo1) {
+
+    }
+
+    @Override
+    public void onPlayerIdsRenew(String s) {
 
     }
 }

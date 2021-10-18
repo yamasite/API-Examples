@@ -107,6 +107,9 @@
 		8BD1C9992717ED3700A44D8D /* AgoraRtcCryptoLoader.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9882717ED2200A44D8D /* AgoraRtcCryptoLoader.xcframework */; };
 		8BD1C99A2717ED3900A44D8D /* AgoraRtcKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C9892717ED2200A44D8D /* AgoraRtcKit.xcframework */; };
 		8BD1C99B2717ED3B00A44D8D /* AgoraVideoProcess.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD1C98A2717ED2200A44D8D /* AgoraVideoProcess.xcframework */; };
+		8BEB3C4D271D25C300B39E50 /* BeQuic.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BEB3C4B271D25B600B39E50 /* BeQuic.xcframework */; };
+		8BEB3C4E271D25CB00B39E50 /* BeQuic.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BEB3C4B271D25B600B39E50 /* BeQuic.xcframework */; };
+		8BEB3C4F271D25CB00B39E50 /* BeQuic.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8BEB3C4B271D25B600B39E50 /* BeQuic.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A7847F922458062900469187 /* StatisticsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7847F912458062900469187 /* StatisticsInfo.swift */; };
 		A7847F942458089E00469187 /* AgoraExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7847F932458089E00469187 /* AgoraExtension.swift */; };
 		A7BD7660247CC6920062A6B3 /* UITypeAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BD765F247CC6920062A6B3 /* UITypeAlias.swift */; };
@@ -147,6 +150,7 @@
 				8BD1C9932717ED2D00A44D8D /* AgoraRtcCryptoLoader.xcframework in Embed Frameworks */,
 				8BD1C9902717ED2B00A44D8D /* Agoraffmpeg.xcframework in Embed Frameworks */,
 				8BD1C9952717ED2E00A44D8D /* AgoraRtcKit.xcframework in Embed Frameworks */,
+				8BEB3C4F271D25CB00B39E50 /* BeQuic.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,10 +293,6 @@
 		8551A4BC255CE49B383BC575 /* Pods_APIExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_APIExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B37C77E2671FAD6004E49B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/RTMPStreaming.strings; sourceTree = "<group>"; };
 		8B43FA3826666D6100261D19 /* SettingsCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCells.swift; sourceTree = "<group>"; };
-		8B9EE7852665D4F400EF6F69 /* Agoraffmpeg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Agoraffmpeg.framework; path = ../../../../Downloads/Agora_Native_SDK_for_iOS_rel.v3.4.201_37519_ffmpeg_player_20210430_1258/libs/Agoraffmpeg.framework; sourceTree = "<group>"; };
-		8B9EE7862665D4F400EF6F69 /* AgoraRtcKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AgoraRtcKit.framework; path = ../../../../Downloads/Agora_Native_SDK_for_iOS_rel.v3.4.201_37519_ffmpeg_player_20210430_1258/libs/AgoraRtcKit.framework; sourceTree = "<group>"; };
-		8B9EE7872665D4F400EF6F69 /* AgoraRtcCryptoLoader.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AgoraRtcCryptoLoader.framework; path = ../../../../Downloads/Agora_Native_SDK_for_iOS_rel.v3.4.201_37519_ffmpeg_player_20210430_1258/libs/AgoraRtcCryptoLoader.framework; sourceTree = "<group>"; };
-		8B9EE7882665D4F400EF6F69 /* AgoraRtcKit2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AgoraRtcKit2.framework; path = ../../../../Downloads/Agora_Native_SDK_for_iOS_rel.v3.4.201_37519_ffmpeg_player_20210430_1258/libs/AgoraRtcKit2.framework; sourceTree = "<group>"; };
 		8B9EE79B2665D99500EF6F69 /* AgoraAudioCriticalSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgoraAudioCriticalSection.h; sourceTree = "<group>"; };
 		8B9EE79C2665D99500EF6F69 /* AgoraAudioProcessing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgoraAudioProcessing.h; sourceTree = "<group>"; };
 		8B9EE79D2665D99500EF6F69 /* AgoraAudioProcessing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AgoraAudioProcessing.mm; sourceTree = "<group>"; };
@@ -300,6 +300,7 @@
 		8BD1C9882717ED2200A44D8D /* AgoraRtcCryptoLoader.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraRtcCryptoLoader.xcframework; path = sdk/libs/AgoraRtcCryptoLoader.xcframework; sourceTree = SOURCE_ROOT; };
 		8BD1C9892717ED2200A44D8D /* AgoraRtcKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraRtcKit.xcframework; path = sdk/libs/AgoraRtcKit.xcframework; sourceTree = SOURCE_ROOT; };
 		8BD1C98A2717ED2200A44D8D /* AgoraVideoProcess.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgoraVideoProcess.xcframework; path = sdk/libs/AgoraVideoProcess.xcframework; sourceTree = SOURCE_ROOT; };
+		8BEB3C4B271D25B600B39E50 /* BeQuic.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BeQuic.xcframework; path = sdk/libs/BeQuic.xcframework; sourceTree = SOURCE_ROOT; };
 		92EACE913B50B28F1588FE03 /* Pods-Agora-ScreenShare-Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Agora-ScreenShare-Extension.release.xcconfig"; path = "Target Support Files/Pods-Agora-ScreenShare-Extension/Pods-Agora-ScreenShare-Extension.release.xcconfig"; sourceTree = "<group>"; };
 		A7847F912458062900469187 /* StatisticsInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsInfo.swift; sourceTree = "<group>"; };
 		A7847F932458089E00469187 /* AgoraExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgoraExtension.swift; sourceTree = "<group>"; };
@@ -321,6 +322,7 @@
 				0339BEC225205D1A007D4FDD /* libios_resampler.a in Frameworks */,
 				CBCDE23FB64E60D6A79F3723 /* Pods_Agora_ScreenShare_Extension.framework in Frameworks */,
 				8BD1C9982717ED3500A44D8D /* Agoraffmpeg.xcframework in Frameworks */,
+				8BEB3C4D271D25C300B39E50 /* BeQuic.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +332,7 @@
 			files = (
 				8BD1C9962717ED2F00A44D8D /* AgoraVideoProcess.xcframework in Frameworks */,
 				8BD1C9922717ED2D00A44D8D /* AgoraRtcCryptoLoader.xcframework in Frameworks */,
+				8BEB3C4E271D25CB00B39E50 /* BeQuic.xcframework in Frameworks */,
 				8BD1C9942717ED2E00A44D8D /* AgoraRtcKit.xcframework in Frameworks */,
 				B9C914453E92C7F49C93E1F5 /* Pods_APIExample.framework in Frameworks */,
 				8BD1C98F2717ED2B00A44D8D /* Agoraffmpeg.xcframework in Frameworks */,
@@ -564,10 +567,6 @@
 		03BCEC5624494F3900ED7177 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B9EE7852665D4F400EF6F69 /* Agoraffmpeg.framework */,
-				8B9EE7872665D4F400EF6F69 /* AgoraRtcCryptoLoader.framework */,
-				8B9EE7862665D4F400EF6F69 /* AgoraRtcKit.framework */,
-				8B9EE7882665D4F400EF6F69 /* AgoraRtcKit2.framework */,
 				03BCEC6A24494F9700ED7177 /* libresolv.tbd */,
 				03BCEC6924494F8E00ED7177 /* libc++.tbd */,
 				03BCEC6724494F7A00ED7177 /* SystemConfiguration.framework */,
@@ -630,6 +629,7 @@
 		03D13BCE2448758900B599B3 /* APIExample */ = {
 			isa = PBXGroup;
 			children = (
+				8BEB3C4B271D25B600B39E50 /* BeQuic.xcframework */,
 				8BD1C9872717ED2200A44D8D /* Agoraffmpeg.xcframework */,
 				8BD1C9882717ED2200A44D8D /* AgoraRtcCryptoLoader.xcframework */,
 				8BD1C9892717ED2200A44D8D /* AgoraRtcKit.xcframework */,

@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 
-import io.agora.api.component.Constant;
+import io.agora.api.example.common.Constant;
 import io.agora.api.example.R;
 import io.agora.api.example.annotation.Example;
 import io.agora.api.example.common.BaseFragment;
@@ -75,6 +75,7 @@ public class PlayAudioFiles extends BaseFragment implements View.OnClickListener
         mute.setOnClickListener(this);
         speaker = view.findViewById(R.id.btn_speaker);
         speaker.setOnClickListener(this);
+        speaker.setActivated(true);
         bgm = view.findViewById(R.id.btn_bgm);
         bgm.setOnClickListener(this);
         effect = view.findViewById(R.id.btn_effect);
@@ -122,7 +123,6 @@ public class PlayAudioFiles extends BaseFragment implements View.OnClickListener
             config.mEventHandler = iRtcEngineEventHandler;
             config.mAudioScenario = Constants.AudioScenario.getValue(Constants.AudioScenario.HIGH_DEFINITION);
             engine = RtcEngine.create(config);
-
             preloadAudioEffect();
         }
         catch (Exception e)
@@ -243,16 +243,17 @@ public class PlayAudioFiles extends BaseFragment implements View.OnClickListener
         else if (v.getId() == R.id.btn_speaker)
         {
             speaker.setActivated(!speaker.isActivated());
-            speaker.setText(getString(speaker.isActivated() ? R.string.earpiece : R.string.speaker));
+            speaker.setText(getString(speaker.isActivated() ? R.string.speaker : R.string.earpiece));
             /**Turn off / on the speaker and change the audio playback route.*/
-            engine.setEnableSpeakerphone(speaker.isActivated());
+            engine.setDefaultAudioRoutetoSpeakerphone(speaker.isActivated());
         }
         else if(v.getId() == R.id.btn_bgm)
         {
             bgm.setActivated(!bgm.isActivated());
             bgm.setText(!bgm.isActivated()?getString(R.string.bgm_on):getString(R.string.bgm_off));
             if(bgm.isActivated()){
-                engine.startAudioMixing(Constant.MIX_FILE_PATH, false, false, -1);
+                int ret = engine.startAudioMixing(Constant.MIX_FILE_PATH, false, false, -1);
+                Log.i(TAG, ""+ret);
             }
             else{
                 engine.stopAudioMixing();
@@ -428,6 +429,11 @@ public class PlayAudioFiles extends BaseFragment implements View.OnClickListener
         {
             Log.i(TAG, String.format("user %d offline! reason:%d", uid, reason));
             showLongToast(String.format("user %d offline! reason:%d", uid, reason));
+        }
+
+        @Override
+        public void onAudioMixingStateChanged(int state, int errorCode) {
+            showLongToast(String.format("onAudioMixingStateChanged %d error code:%d", state, errorCode));
         }
     };
 

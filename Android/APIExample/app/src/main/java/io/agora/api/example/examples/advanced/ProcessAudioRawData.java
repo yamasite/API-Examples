@@ -28,12 +28,15 @@ import io.agora.api.example.R;
 import io.agora.api.example.annotation.Example;
 import io.agora.api.example.common.BaseFragment;
 import io.agora.api.example.utils.CommonUtil;
+import io.agora.base.VideoFrame;
 import io.agora.rtc2.Constants;
 import io.agora.rtc2.IAudioFrameObserver;
 import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.RtcConnection;
 import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.ChannelMediaOptions;
 import io.agora.rtc2.RtcEngineConfig;
+import io.agora.rtc2.video.IVideoFrameObserver;
 
 import static io.agora.api.example.common.model.Examples.ADVANCED;
 
@@ -139,6 +142,7 @@ public class ProcessAudioRawData extends BaseFragment implements View.OnClickLis
         mute.setOnClickListener(this);
         speaker = view.findViewById(R.id.btn_speaker);
         speaker.setOnClickListener(this);
+        speaker.setActivated(true);
         writeBackAudio = view.findViewById(R.id.writebackAudio);
         writeBackAudio.setOnCheckedChangeListener(this);
         record = view.findViewById(R.id.recordingVol);
@@ -263,9 +267,9 @@ public class ProcessAudioRawData extends BaseFragment implements View.OnClickLis
             engine.muteLocalAudioStream(mute.isActivated());
         } else if (v.getId() == R.id.btn_speaker) {
             speaker.setActivated(!speaker.isActivated());
-            speaker.setText(getString(speaker.isActivated() ? R.string.earpiece : R.string.speaker));
+            speaker.setText(getString(speaker.isActivated() ? R.string.speaker : R.string.earpiece));
             /**Turn off / on the speaker and change the audio playback route.*/
-            engine.setEnableSpeakerphone(speaker.isActivated());
+            engine.setDefaultAudioRoutetoSpeakerphone(speaker.isActivated());
         }
     }
 
@@ -304,7 +308,6 @@ public class ProcessAudioRawData extends BaseFragment implements View.OnClickLis
 
 
     }
-
 
     private final IAudioFrameObserver iAudioFrameObserver = new IAudioFrameObserver() {
 

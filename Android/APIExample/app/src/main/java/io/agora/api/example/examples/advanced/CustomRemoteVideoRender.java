@@ -211,7 +211,7 @@ public class CustomRemoteVideoRender extends BaseFragment implements View.OnClic
         }
 
         // Create render view by RtcEngine
-        SurfaceView surfaceView = RtcEngine.CreateRendererView(context);
+        SurfaceView surfaceView = new SurfaceView(context);
         // Local video is on the top
         surfaceView.setZOrderMediaOverlay(true);
         // Add to the local container
@@ -223,7 +223,6 @@ public class CustomRemoteVideoRender extends BaseFragment implements View.OnClic
         engine.setupLocalVideo(new VideoCanvas(surfaceView, RENDER_MODE_HIDDEN, 0));
         /**Set up to play remote sound with receiver*/
         engine.setDefaultAudioRoutetoSpeakerphone(true);
-        engine.setEnableSpeakerphone(true);
 
         engine.registerVideoFrameObserver(videoFrameObserver);
         /**In the demo, the default is to enter as the anchor.*/
@@ -460,10 +459,10 @@ public class CustomRemoteVideoRender extends BaseFragment implements View.OnClic
         }
 
         @Override
-        public boolean onRenderVideoFrame(int i, RtcConnection rtcConnection, VideoFrame videoFrame) {
+        public boolean onRenderVideoFrame(String s, int i, VideoFrame videoFrame) {
 //            Log.d(TAG, "onRenderVideoFrame: " + i + "   connection: " + rtcConnection.id + "  buffer: " + videoFrame.getBuffer());
             if (mSurfaceView != null && videoFrame != lastI420Frame){
-                Log.d(TAG, "onRenderVideoFrame: " + i + "   connection: " + rtcConnection.id + "  buffer: " + videoFrame.getBuffer());
+                Log.d(TAG, "onRenderVideoFrame: " + i + "   connection: " + s + "  buffer: " + videoFrame.getBuffer());
                 lastI420Frame = videoFrame;
                 textureBufferHelper.invoke(new Callable<Void>() {
                     @Override

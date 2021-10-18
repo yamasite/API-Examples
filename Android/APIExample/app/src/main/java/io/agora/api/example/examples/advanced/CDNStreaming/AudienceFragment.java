@@ -30,6 +30,7 @@ import io.agora.api.example.common.BaseFragment;
 import io.agora.api.example.examples.advanced.MediaPlayer;
 import io.agora.mediaplayer.IMediaPlayer;
 import io.agora.mediaplayer.IMediaPlayerObserver;
+import io.agora.mediaplayer.data.SrcInfo;
 import io.agora.rtc2.ChannelMediaOptions;
 import io.agora.rtc2.Constants;
 import io.agora.rtc2.IRtcEngineEventHandler;
@@ -146,7 +147,7 @@ public class AudienceFragment extends BaseFragment implements IMediaPlayerObserv
             // Set audio route to microPhone
             engine.setDefaultAudioRoutetoSpeakerphone(true);
             if(isAgoraChannel){
-                mediaPlayer.openWithAgoraCDN(getUrl(), 0);
+                mediaPlayer.openWithAgoraCDNSrc(getUrl(), 0);
             }
             else {
                 mediaPlayer.open(getUrl(), 0);
@@ -408,7 +409,7 @@ public class AudienceFragment extends BaseFragment implements IMediaPlayerObserv
     }
 
     private void loadAgoraChannels() {
-        int count = mediaPlayer.getAgoraCDNCount();
+        int count = mediaPlayer.getAgoraCDNLineCount();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getChannelArray(count));
         channelSpinner.setAdapter(arrayAdapter);
     }
@@ -467,15 +468,25 @@ public class AudienceFragment extends BaseFragment implements IMediaPlayerObserv
     }
 
     @Override
-    public void onAgoraCDNTokenNeedRenew() {
+    public void onAgoraCDNTokenWillExpire() {
+
+    }
+
+    @Override
+    public void onPlayerSrcInfoChanged(SrcInfo srcInfo, SrcInfo srcInfo1) {
+
+    }
+
+    @Override
+    public void onPlayerIdsRenew(String s) {
 
     }
 
     private final AdapterView.OnItemSelectedListener itemSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            Log.i(TAG,"Start to switch cdn, current index is "+mediaPlayer.getAgoraCDNIndex()+". target index is "+i);
-            mediaPlayer.switchAgoraCDN(i);
+            Log.i(TAG,"Start to switch cdn, current index is "+mediaPlayer.getAgoraCDNLineCount()+". target index is "+i);
+            mediaPlayer.switchAgoraCDNLineByIndex(i);
         }
 
         @Override
