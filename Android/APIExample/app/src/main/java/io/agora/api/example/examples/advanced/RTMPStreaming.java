@@ -283,7 +283,7 @@ public class RTMPStreaming extends BaseFragment implements View.OnClickListener
             localTranscodingUser.x = 0;
             localTranscodingUser.y = 0;
             localTranscodingUser.width = transcoding.width;
-            localTranscodingUser.height = transcoding.height / MAXUserCount;
+            localTranscodingUser.height = transcoding.height;
             localTranscodingUser.uid = myUid;
             /**Adds a user displaying the video in CDN live.
              * @return
@@ -612,6 +612,7 @@ public class RTMPStreaming extends BaseFragment implements View.OnClickListener
             /**Determine whether to open transcoding service and whether the current number of
              * transcoding users exceeds the maximum number of users*/
             if (transCodeSwitch.isChecked() && transcoding.getUserCount() < MAXUserCount) {
+                transcoding.getUsers().get(0).height = transcoding.height / MAXUserCount;
                 /**The transcoding images are arranged vertically according to the adding order*/
                 LiveTranscoding.TranscodingUser transcodingUser = new LiveTranscoding.TranscodingUser();
                 transcodingUser.x = 0;
@@ -654,6 +655,9 @@ public class RTMPStreaming extends BaseFragment implements View.OnClickListener
                          * < 0: Failure.*/
                         int code = transcoding.removeUser(uid);
                         if (code == Constants.ERR_OK) {
+                            if(transcoding.getUsers().size() == 1){
+                                transcoding.getUsers().get(0).height = transcoding.height;
+                            }
                             /**refresh transCoding configuration*/
                             engine.setLiveTranscoding(transcoding);
                         }
