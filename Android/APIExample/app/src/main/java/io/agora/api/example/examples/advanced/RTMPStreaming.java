@@ -648,6 +648,10 @@ public class RTMPStreaming extends BaseFragment implements View.OnClickListener
                      Note: The video will stay at its last frame, to completely remove it you will need to
                      remove the SurfaceView from its parent*/
                     engine.setupRemoteVideo(new VideoCanvas(null, RENDER_MODE_HIDDEN, uid));
+                    if (fl_remote.getChildCount() > 0)
+                    {
+                        fl_remote.removeAllViews();
+                    }
                     if(transcoding != null) {
                         /**Removes a user from CDN live.
                          * @return
