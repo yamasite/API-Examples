@@ -13,7 +13,7 @@ import AGEVideoLayout
 let EFFECT_ID:Int32 = 1
 let BGM_URL = "https://webdemo.agora.io/multi_audioTrack.m4a"
 
-class AudioMixingEntry : UIViewController
+class AudioMixingEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

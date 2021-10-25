@@ -26,7 +26,7 @@ class CustomVideoSourcePreview : UIView {
     }
 }
 
-class CustomVideoSourcePushEntry : UIViewController
+class CustomVideoSourcePushEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

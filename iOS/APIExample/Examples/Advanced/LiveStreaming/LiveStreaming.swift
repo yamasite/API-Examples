@@ -9,7 +9,7 @@ import UIKit
 import AGEVideoLayout
 import AgoraRtcKit
 
-class LiveStreamingEntry : UIViewController
+class LiveStreamingEntry : AGViewController
 {
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var channelTextField: UITextField!
@@ -89,6 +89,9 @@ class LiveStreamingMain: BaseViewController {
     // indicate if current instance has joined channel
     var isJoined: Bool = false
     
+    /// 记录捏合view的最后一次值
+    private var lastScaleFactor: CGFloat = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -139,6 +142,24 @@ class LiveStreamingMain: BaseViewController {
             // cn: https://docs.agora.io/cn/Voice/API%20Reference/oc/Constants/AgoraErrorCode.html
             self.showAlert(title: "Error", message: "joinChannel call failed: \(result), please check your params")
         }
+        let pinchGetsture = UIPinchGestureRecognizer(target: self, action: #selector(pinchView(sender:)))
+        backgroundVideoContainer.addGestureRecognizer(pinchGetsture)
+    }
+    
+    @objc
+    private func pinchView(sender: UIPinchGestureRecognizer) {
+        print("scale == \(sender.scale)")
+        let factor = sender.scale
+        let scale = factor > 1 ? lastScaleFactor + factor - 1 : lastScaleFactor * factor
+        sender.view?.transform = CGAffineTransform(scaleX: scale, y: scale)
+    
+        guard sender.state == .ended else { return }
+        if scale < 1 {
+            UIView.animate(withDuration: 0.25) {
+                sender.view?.transform = .identity
+            }
+        }
+        lastScaleFactor = max(scale, 1)
     }
     
     /// make myself a broadcaster
@@ -204,6 +225,9 @@ class LiveStreamingMain: BaseViewController {
             remoteVideoCanvas.uid = uid
             agoraKit.setupRemoteVideo(remoteVideoCanvas)
         }
+        // 切换画面后,恢复到原始大小
+        lastScaleFactor = 1
+        backgroundVideoContainer.transform = .identity
     }
     
     @IBAction func onToggleClientRole(_ sender:UISwitch) {

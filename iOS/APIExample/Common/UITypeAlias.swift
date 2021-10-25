@@ -771,7 +771,7 @@ extension AGStoryboardSegue {
     #if os(iOS)
     var destinationController: AGViewController? {
         get {
-            return destination
+            return destination as? AGViewController
         }
     }
     #endif
@@ -786,10 +786,16 @@ typealias AGStoryboard = NSStoryboard
 
 //MARK: - ViewController
 #if os(iOS)
-typealias AGViewController = UIViewController
+typealias AGBaseViewController = UIViewController
 #else
-typealias AGViewController = NSViewController
+typealias AGBaseViewController = NSViewController
 #endif
+class AGViewController: AGBaseViewController {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("进入 === \(self)")
+    }
+}
 extension AGViewController {
     #if os(OSX)
     var title: String? {

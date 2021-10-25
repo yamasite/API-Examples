@@ -9,7 +9,7 @@ import UIKit
 import AGEVideoLayout
 import AgoraRtcKit
 
-class SuperResolutionEntry : UIViewController
+class SuperResolutionEntry : AGViewController
 {
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var channelTextField: UITextField!

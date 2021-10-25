@@ -10,7 +10,7 @@ import UIKit
 import AgoraRtcKit
 import AGEVideoLayout
 
-class VideoChatEntry: UIViewController {
+class VideoChatEntry: AGViewController {
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var channelTextField: UITextField!
     let identifier = "VideoChat"

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class EntryViewController : UIViewController
+class EntryViewController : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

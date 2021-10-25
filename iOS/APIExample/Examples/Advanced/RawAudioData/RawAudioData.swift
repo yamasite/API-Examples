@@ -10,7 +10,7 @@ import UIKit
 import AGEVideoLayout
 import AgoraRtcKit
 
-class RawAudioDataEntry: UIViewController {
+class RawAudioDataEntry: AGViewController {
 
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

@@ -12,7 +12,7 @@ import AgoraRtcKit
 import AGEVideoLayout
 
 
-class VoiceChangerEntry : UIViewController
+class VoiceChangerEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

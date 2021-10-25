@@ -9,7 +9,7 @@ import UIKit
 import AGEVideoLayout
 import AgoraRtcKit
 
-class RawMediaDataEntry : UIViewController
+class RawMediaDataEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

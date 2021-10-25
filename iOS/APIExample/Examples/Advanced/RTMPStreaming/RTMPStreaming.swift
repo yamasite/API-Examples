@@ -14,7 +14,7 @@ import AGEVideoLayout
 let CANVAS_WIDTH = 640
 let CANVAS_HEIGHT = 480
 
-class RTMPStreamingEntry : UIViewController
+class RTMPStreamingEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

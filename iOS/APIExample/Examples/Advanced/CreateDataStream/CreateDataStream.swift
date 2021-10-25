@@ -10,7 +10,7 @@ import UIKit
 import AGEVideoLayout
 import AgoraRtcKit
 
-class CreateDataStreamEntry: UIViewController {
+class CreateDataStreamEntry: AGViewController {
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var channelTextField: UITextField!
     let identifier = "CreateDataStream"

@@ -11,7 +11,7 @@ import AgoraRtcKit
 import AGEVideoLayout
 import AVFoundation
 
-class CustomPcmAudioSourceEntry : UIViewController
+class CustomPcmAudioSourceEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

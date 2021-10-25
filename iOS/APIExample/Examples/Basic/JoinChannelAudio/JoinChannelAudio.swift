@@ -10,7 +10,7 @@ import UIKit
 import AgoraRtcKit
 import AGEVideoLayout
 
-class JoinChannelAudioEntry: UIViewController {
+class JoinChannelAudioEntry: AGViewController {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!
     @IBOutlet weak var scenarioBtn: UIButton!

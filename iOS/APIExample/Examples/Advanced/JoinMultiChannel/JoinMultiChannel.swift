@@ -9,7 +9,7 @@ import UIKit
 import AGEVideoLayout
 import AgoraRtcKit
 
-class JoinMultiChannelEntry : UIViewController
+class JoinMultiChannelEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

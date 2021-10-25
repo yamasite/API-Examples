@@ -10,7 +10,7 @@ import UIKit
 import AgoraRtcKit
 import AGEVideoLayout
 
-class VideoMetadataEntry : UIViewController
+class VideoMetadataEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

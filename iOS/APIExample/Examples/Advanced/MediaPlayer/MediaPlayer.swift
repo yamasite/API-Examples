@@ -10,7 +10,7 @@ import AGEVideoLayout
 import AgoraRtcKit
 import AgoraMediaPlayer
 
-class MediaPlayerEntry : UIViewController
+class MediaPlayerEntry : AGViewController
 {
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var channelTextField: UITextField!
@@ -118,7 +118,7 @@ class MediaPlayerMain: BaseViewController {
         guard let url = mediaUrlField.text else {return}
         //resign text field
         mediaUrlField.resignFirstResponder()
-        
+        mediaPlayerKit.stop()
         mediaPlayerKit.open(url, startPos: 0)
     }
     

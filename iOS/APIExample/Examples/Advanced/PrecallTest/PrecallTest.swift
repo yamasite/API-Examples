@@ -9,7 +9,7 @@ import UIKit
 import AGEVideoLayout
 import AgoraRtcKit
 
-class PrecallTestEntry : UIViewController
+class PrecallTestEntry : AGViewController
 {
     var agoraKit: AgoraRtcEngineKit!
     var timer:Timer?

@@ -10,7 +10,7 @@ import Foundation
 import AgoraRtcKit
 import AGEVideoLayout
 
-class CustomAudioRenderEntry : UIViewController
+class CustomAudioRenderEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

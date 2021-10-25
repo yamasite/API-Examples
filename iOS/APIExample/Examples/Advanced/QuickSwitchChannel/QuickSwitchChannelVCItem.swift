@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QuickSwitchChannelVCItem: UIViewController {
+class QuickSwitchChannelVCItem: AGViewController {
 
     @IBOutlet weak var hostLabel: UILabel!
     @IBOutlet weak var channelLabel: UILabel!

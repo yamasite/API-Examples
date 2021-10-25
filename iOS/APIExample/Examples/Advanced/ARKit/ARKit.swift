@@ -9,7 +9,7 @@ import UIKit
 import AgoraRtcKit
 import ARKit
 
-class ARKitEntry : UIViewController
+class ARKitEntry : AGViewController
 {
     @IBOutlet weak var joinButton: AGButton!
     @IBOutlet weak var channelTextField: AGTextField!

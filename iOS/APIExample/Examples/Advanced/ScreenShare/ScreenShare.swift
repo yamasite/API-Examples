@@ -10,7 +10,7 @@ import AGEVideoLayout
 import AgoraRtcKit
 import ReplayKit
 
-class ScreenShareEntry : UIViewController
+class ScreenShareEntry : AGViewController
 {
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var channelTextField: UITextField!
