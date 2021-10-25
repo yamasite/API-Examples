@@ -15,9 +15,11 @@ class RawMediaData: BaseViewController {
     var agoraKit: AgoraRtcEngineKit!
     
     var agoraMediaDataPlugin: AgoraMediaDataPlugin?
+    var remoteUid: UInt?
     
     @IBOutlet weak var Container: AGEVideoContainer!
     
+    @IBOutlet weak var snapshotButton: NSButton!
     /**
      --- Resolutions Picker ---
      */
@@ -104,6 +106,12 @@ class RawMediaData: BaseViewController {
             return nil
         }
     }
+    func initSnapshotHandler() {
+        layoutVideos(2)
+        snapshotButton.layer?.cornerRadius = 15
+        snapshotButton.layer?.masksToBounds = true
+        snapshotButton.title = "Snapshot Remote".localized
+    }
     func initSelectLayoutPicker() {
         layoutVideos(2)
         selectLayoutPicker.label.stringValue = "Layout".localized
@@ -126,6 +134,22 @@ class RawMediaData: BaseViewController {
         channelField.field.placeholderString = "Channel Name".localized
     }
     
+    @IBAction func clickSnapshotButton(_ sender: NSButton) {
+        guard let uid = remoteUid else {return}
+        agoraMediaDataPlugin?.remoteSnapshot(withUid: uid, image: { [weak self] (image: NSImage) in
+            let imageData = image.tiffRepresentation
+            do {
+                let path = Bundle(for: RawAudioData.self)
+                let userPath = path.bundlePath.components(separatedBy: "/")[0...2].map({ $0 + "/" }).joined()
+                try imageData?.write(to: URL(fileURLWithPath: userPath + "Desktop/snapshot.png"))
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "截图成功", message: "请在桌面查看")
+                }
+            } catch {
+                print("error == \(error)")
+            }
+        })
+    }
     /**
      --- Button ---
      */
@@ -138,7 +162,7 @@ class RawMediaData: BaseViewController {
     var isJoined: Bool = false {
         didSet {
             channelField.isEnabled = !isJoined
-            selectLayoutPicker.isEnabled = !isJoined
+//            selectLayoutPicker.isEnabled = !isJoined
             initJoinChannelButton()
         }
     }
@@ -161,7 +185,8 @@ class RawMediaData: BaseViewController {
         
         initSelectResolutionPicker()
         initSelectFpsPicker()
-        initSelectLayoutPicker()
+        initSnapshotHandler()
+//        initSelectLayoutPicker()
         initChannelField()
         initJoinChannelButton()
     }
@@ -349,6 +374,7 @@ extension RawMediaData: AgoraRtcEngineDelegate {
             videoCanvas.renderMode = .hidden
             agoraKit.setupRemoteVideo(videoCanvas)
             remoteVideo.uid = uid
+            remoteUid = uid
         } else {
             LogUtils.log(message: "no video canvas available for \(uid), cancel bind", level: .warning)
         }
@@ -375,6 +401,7 @@ extension RawMediaData: AgoraRtcEngineDelegate {
         } else {
             LogUtils.log(message: "no matching video canvas for \(uid), cancel unbind", level: .warning)
         }
+        remoteUid = nil
     }
 }
 
