@@ -33,6 +33,7 @@ import io.agora.rtc2.Constants;
 import io.agora.rtc2.DirectCdnStreamingError;
 import io.agora.rtc2.DirectCdnStreamingMediaOptions;
 import io.agora.rtc2.DirectCdnStreamingState;
+import io.agora.rtc2.DirectCdnStreamingStats;
 import io.agora.rtc2.IDirectCdnStreamingEventHandler;
 import io.agora.rtc2.IRtcEngineEventHandler;
 import io.agora.rtc2.LeaveChannelOptions;
@@ -440,7 +441,7 @@ public class HostFragment extends BaseFragment {
                 @Override
                 public void run() {
                     switch (directCdnStreamingState) {
-                        case STARTED:
+                        case RUNNING:
                             streamingButton.setText(R.string.stop_streaming);
                             cdnStreaming = true;
                             break;
@@ -471,6 +472,11 @@ public class HostFragment extends BaseFragment {
                     rtcSwitcher.setEnabled(true);
                 }
             });
+        }
+
+        @Override
+        public void onDirectCdnStreamingStats(DirectCdnStreamingStats directCdnStreamingStats) {
+
         }
     };
 
