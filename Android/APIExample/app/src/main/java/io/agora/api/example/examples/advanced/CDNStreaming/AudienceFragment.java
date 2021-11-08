@@ -30,6 +30,7 @@ import io.agora.api.example.common.BaseFragment;
 import io.agora.api.example.examples.advanced.MediaPlayer;
 import io.agora.mediaplayer.IMediaPlayer;
 import io.agora.mediaplayer.IMediaPlayerObserver;
+import io.agora.mediaplayer.data.PlayerUpdatedInfo;
 import io.agora.mediaplayer.data.SrcInfo;
 import io.agora.rtc2.ChannelMediaOptions;
 import io.agora.rtc2.Constants;
@@ -478,7 +479,7 @@ public class AudienceFragment extends BaseFragment implements IMediaPlayerObserv
     }
 
     @Override
-    public void onPlayerIdsRenew(String s) {
+    public void onPlayerInfoUpdated(PlayerUpdatedInfo playerUpdatedInfo) {
 
     }
 

@@ -106,6 +106,7 @@ class RTMPStreamingHost: BaseViewController {
     var transcoding = AgoraLiveTranscoding.default()
     var videoViews: [UInt:VideoView] = [:]
     var videoConfig: AgoraVideoEncoderConfiguration!
+    let localUid = UInt.random(in: 1001...2000)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -450,7 +451,7 @@ extension RTMPStreamingHost: AgoraDirectCdnStreamingEventDelegate {
     func onDirectCdnStreamingStateChanged(_ state: AgoraDirectCdnStreamingState, error: AgoraDirectCdnStreamingError, message: String?) {
         DispatchQueue.main.async {[self] in
             switch state{
-            case .started:
+            case .running:
                 self.streamingButton.setTitle("Stop Streaming", for: .normal)
                 self.streamingButton.setTitleColor(.red, for: .normal)
                 cdnStreaming = true
@@ -463,7 +464,7 @@ extension RTMPStreamingHost: AgoraDirectCdnStreamingEventDelegate {
                     options.publishCameraTrack = .of(true)
                     options.publishAudioTrack = .of(true)
                     options.clientRoleType = .of((Int32)(AgoraClientRole.broadcaster.rawValue))
-                    let result = agoraKit.joinChannel(byToken: KeyCenter.Token, channelId: channelName, uid: 0, mediaOptions: options)
+                    let result = agoraKit.joinChannel(byToken: KeyCenter.Token, channelId: channelName, uid: self.localUid, mediaOptions: options)
                     if result != 0 {
                         // Usually happens with invalid parameters
                         // Error code description can be found at:

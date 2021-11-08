@@ -66,7 +66,7 @@ public class HostFragment extends BaseFragment {
     private VideoEncoderConfiguration videoEncoderConfiguration;
     private int canvas_width = 480;
     private int canvas_height = 640;
-    private int localUid = 0;
+    private int localUid = (int) (Math.random() * Integer.MAX_VALUE / 2);
 
     @Nullable
     @Override
@@ -452,7 +452,7 @@ public class HostFragment extends BaseFragment {
                                 channelMediaOptions.publishAudioTrack = true;
                                 channelMediaOptions.publishCameraTrack = true;
                                 channelMediaOptions.clientRoleType = CLIENT_ROLE_BROADCASTER;
-                                int ret = engine.joinChannel(null, channel, 0, channelMediaOptions);
+                                int ret = engine.joinChannel(null, channel, localUid, channelMediaOptions);
                                 if (ret != 0) {
                                     showLongToast(String.format("Join Channel call failed! reason:%d", ret));
                                 }
