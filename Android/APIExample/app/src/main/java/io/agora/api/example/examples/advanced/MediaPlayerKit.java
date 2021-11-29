@@ -349,7 +349,7 @@ public class MediaPlayerKit extends BaseFragment implements View.OnClickListener
         }
 
         @Override
-        public void onAgoraCDNTokenNeedRenew() {
+        public void onAgoraCDNTokenWillExpire() {
 
         }
     };
