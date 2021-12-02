@@ -23,6 +23,7 @@ class MenuController: NSViewController {
         MenuItem(name: "Basic", identifier: "headerCell"),
         MenuItem(name: "Join a channel (Video)".localized, identifier: "menuCell", controller: "JoinChannelVideo", storyboard: "JoinChannelVideo"),
         MenuItem(name: "Join a channel (Audio)".localized, identifier: "menuCell", controller: "JoinChannelAudio", storyboard: "JoinChannelAudio"),
+        MenuItem(name: "实时直播观众端".localized, identifier: "menuCell", controller: "JoinChannelAudience", storyboard: "JoinChannelAudience"),
         MenuItem(name: "Anvanced", identifier: "headerCell"),
         MenuItem(name: "RTMP Streaming".localized, identifier: "menuCell", controller: "RTMPStreaming", storyboard: "RTMPStreaming"),
         MenuItem(name: "Custom Video Source(MediaIO)".localized, identifier: "menuCell", controller: "CustomVideoSourceMediaIO", storyboard: "CustomVideoSourceMediaIO"),

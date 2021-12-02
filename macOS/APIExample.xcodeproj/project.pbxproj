@@ -89,6 +89,11 @@
 		57AF3981259B329B00601E02 /* RawAudioData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57AF3980259B329B00601E02 /* RawAudioData.storyboard */; };
 		596A9F79AF0CD8DC1CA93253 /* Pods_APIExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F65EF2B97B89DE4581B426B /* Pods_APIExample.framework */; };
 		8B733B8C267B1C0B00CC3DE3 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8B733B8B267B1C0B00CC3DE3 /* bg.jpg */; };
+		E7749F9827562A61007DFBC1 /* JoinChannelAudienceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7749F9627562A61007DFBC1 /* JoinChannelAudienceCell.swift */; };
+		E7749F9B27564534007DFBC1 /* AudienceToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7749F9A27564534007DFBC1 /* AudienceToolView.swift */; };
+		E7749F9D275778D0007DFBC1 /* AudienceOperationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7749F9C275778D0007DFBC1 /* AudienceOperationView.swift */; };
+		E79BF037275611E7009FA838 /* JoinChannelAudience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79BF036275611E7009FA838 /* JoinChannelAudience.swift */; };
+		E79BF0392756120C009FA838 /* JoinChannelAudience.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E79BF0382756120C009FA838 /* JoinChannelAudience.storyboard */; };
 		EBDD0209B272C276B21B6270 /* Pods_APIExample_APIExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2BAB0AC82140B7CEEA31DA /* Pods_APIExample_APIExampleUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -234,6 +239,11 @@
 		B53F41CB5AC550EA43C47363 /* Pods-APIExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APIExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-APIExampleTests/Pods-APIExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B91A67063F1DBE9F621B114C /* Pods-APIExample-APIExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APIExample-APIExampleUITests.release.xcconfig"; path = "Target Support Files/Pods-APIExample-APIExampleUITests/Pods-APIExample-APIExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DC004435A834772C836F5662 /* Pods-APIExample-APIExampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APIExample-APIExampleUITests.debug.xcconfig"; path = "Target Support Files/Pods-APIExample-APIExampleUITests/Pods-APIExample-APIExampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E7749F9627562A61007DFBC1 /* JoinChannelAudienceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinChannelAudienceCell.swift; sourceTree = "<group>"; };
+		E7749F9A27564534007DFBC1 /* AudienceToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudienceToolView.swift; sourceTree = "<group>"; };
+		E7749F9C275778D0007DFBC1 /* AudienceOperationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudienceOperationView.swift; sourceTree = "<group>"; };
+		E79BF036275611E7009FA838 /* JoinChannelAudience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinChannelAudience.swift; sourceTree = "<group>"; };
+		E79BF0382756120C009FA838 /* JoinChannelAudience.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = JoinChannelAudience.storyboard; sourceTree = "<group>"; };
 		FC2BAB0AC82140B7CEEA31DA /* Pods_APIExample_APIExampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_APIExample_APIExampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -288,6 +298,7 @@
 		0333E63924FA335C0063C5B0 /* Basic */ = {
 			isa = PBXGroup;
 			children = (
+				E79BF03527561121009FA838 /* JoinChannelAudience */,
 				034C626A25259FC200296ECF /* JoinChannelVideo */,
 				034C62652525857200296ECF /* JoinChannelAudio */,
 			);
@@ -652,6 +663,34 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E79BF03527561121009FA838 /* JoinChannelAudience */ = {
+			isa = PBXGroup;
+			children = (
+				E79BF03A2756147F009FA838 /* Views */,
+				E79BF03B27561488009FA838 /* Controllers */,
+			);
+			path = JoinChannelAudience;
+			sourceTree = "<group>";
+		};
+		E79BF03A2756147F009FA838 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E7749F9627562A61007DFBC1 /* JoinChannelAudienceCell.swift */,
+				E7749F9A27564534007DFBC1 /* AudienceToolView.swift */,
+				E7749F9C275778D0007DFBC1 /* AudienceOperationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E79BF03B27561488009FA838 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E79BF0382756120C009FA838 /* JoinChannelAudience.storyboard */,
+				E79BF036275611E7009FA838 /* JoinChannelAudience.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		E8D399FF8F860CE7DAAA9D91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -801,6 +840,7 @@
 				57A635F42593544600EDC2F7 /* effectA.wav in Resources */,
 				033A9FF5252EB5F400BC26E1 /* JoinMultiChannel.storyboard in Resources */,
 				033A9FD6252EB05200BC26E1 /* RTMPStreaming.storyboard in Resources */,
+				E79BF0392756120C009FA838 /* JoinChannelAudience.storyboard in Resources */,
 				033A9FF0252EB5EB00BC26E1 /* ChannelMediaRelay.storyboard in Resources */,
 				033A9FD1252EB04700BC26E1 /* RawMediaData.storyboard in Resources */,
 				034C62A125297ABB00296ECF /* audiomixing.mp3 in Resources */,
@@ -960,8 +1000,11 @@
 				5770E2DF258CDCA600812A80 /* Picker.swift in Sources */,
 				57887A87258889ED006E962A /* SettingsViewController.swift in Sources */,
 				57A635D82591BC0C00EDC2F7 /* Slider.swift in Sources */,
+				E7749F9D275778D0007DFBC1 /* AudienceOperationView.swift in Sources */,
 				034C62932528474D00296ECF /* StatisticsInfo.swift in Sources */,
+				E79BF037275611E7009FA838 /* JoinChannelAudience.swift in Sources */,
 				033A9FA4252EA86A00BC26E1 /* RTMPStreaming.swift in Sources */,
+				E7749F9827562A61007DFBC1 /* JoinChannelAudienceCell.swift in Sources */,
 				03267E232500C265004A91A6 /* AgoraMediaRawData.m in Sources */,
 				03B12DA4250E8F7F00E55818 /* AgoraExtension.swift in Sources */,
 				0336A1C725034F4700D61B7F /* AudioWriteToFile.m in Sources */,
@@ -971,6 +1014,7 @@
 				0336A1CA25034F4700D61B7F /* ExternalAudio.mm in Sources */,
 				033A9FA1252EA86A00BC26E1 /* CustomAudioRender.swift in Sources */,
 				034C627C2526C43900296ECF /* ScreenShare.swift in Sources */,
+				E7749F9B27564534007DFBC1 /* AudienceToolView.swift in Sources */,
 				034C62712525A35800296ECF /* StreamEncryption.swift in Sources */,
 				57887A75258859D8006E962A /* SettingsController.swift in Sources */,
 				036D3A9E24FA3A1000B1D8DC /* LogUtils.swift in Sources */,
@@ -1307,7 +1351,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = APIExample/APIExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = JDPG69R49Z;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1335,7 +1379,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = APIExample/APIExample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1362,7 +1406,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = APIExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1384,7 +1428,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = APIExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1405,7 +1449,7 @@
 			baseConfigurationReference = DC004435A834772C836F5662 /* Pods-APIExample-APIExampleUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = APIExampleUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1425,7 +1469,7 @@
 			baseConfigurationReference = B91A67063F1DBE9F621B114C /* Pods-APIExample-APIExampleUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = APIExampleUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
