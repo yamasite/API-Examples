@@ -128,7 +128,7 @@ class RTMPStreamingHost: BaseViewController {
         agoraKit.enableVideo()
         
         guard let resolution = GlobalSettings.shared.getSetting(key: "resolution")?.selectedOption().value as? CGSize,
-              let fps = GlobalSettings.shared.getSetting(key: "fps")?.selectedOption().value as? AgoraVideoFrameRate else {return}
+              let _ = GlobalSettings.shared.getSetting(key: "fps")?.selectedOption().value as? AgoraVideoFrameRate else {return}
         
         CANVAS_WIDTH = Int(resolution.height > resolution.width ? resolution.width : resolution.height)
         CANVAS_HEIGHT = Int(resolution.height > resolution.width ? resolution.height : resolution.width)
@@ -508,6 +508,7 @@ extension RTMPStreamingHost: AgoraRtcEngineDelegate {
         let user = AgoraLiveTranscodingUser()
         user.rect = CGRect(x: 0, y: 0, width: CANVAS_WIDTH / 2, height: CANVAS_HEIGHT/2)
         user.uid = uid
+        agoraKit.startPreview()
         transcoding.add(user)
         engine.setLiveTranscoding(transcoding)
     }
@@ -527,6 +528,16 @@ extension RTMPStreamingHost: AgoraRtcEngineDelegate {
         videoCanvas.view = remoteVideo.videoView
         videoCanvas.renderMode = .hidden
         agoraKit.setupRemoteVideo(videoCanvas)
+        
+        // set up local video to render your local camera preview
+        let videoCanvas1 = AgoraRtcVideoCanvas()
+        videoCanvas1.uid = 0
+        let localVideo = Bundle.loadVideoView(type: .local, audioOnly: false)
+        // the view to be binded
+        videoCanvas1.view = localVideo.videoView
+        videoCanvas1.renderMode = .hidden
+        agoraKit.setupLocalVideo(videoCanvas1)
+        videoViews[0] = localVideo
         
         self.videoViews[uid] = remoteVideo
         self.container.layoutStream2x2(views: sortedViews())
@@ -552,8 +563,17 @@ extension RTMPStreamingHost: AgoraRtcEngineDelegate {
             self.showAlert(title: "Error", message: "startDirectCdnStreaming failed: \(ret)")
             self.stopStreaming()
         }
-        guard let localView = self.videoViews[0] else {return}
-        self.container.layoutStream(views: [localView.videoView])
+        // set up local video to render your local camera preview
+        let videoCanvas = AgoraRtcVideoCanvas()
+        videoCanvas.uid = 0
+        let localVideo = Bundle.loadVideoView(type: .local, audioOnly: false)
+        // the view to be binded
+        videoCanvas.view = localVideo.videoView
+        videoCanvas.renderMode = .hidden
+        agoraKit.setupLocalVideo(videoCanvas)
+        videoViews.removeAll()
+        videoViews[0] = localVideo
+        self.container.layoutStream(views: [localVideo.videoView])
     }
     
     /// callback when a remote user is leaving the channel, note audience in live broadcast mode will NOT trigger this event
@@ -727,7 +747,7 @@ extension RTMPStreamingAudience: AgoraRtcMediaPlayerDelegate {
             guard let weakself = self else { return }
             switch event{
             case .switchError:
-                weakself.showAlert(message: "switch cdn channel error!: \(message)")
+                weakself.showAlert(message: "switch cdn channel error!: \(message ?? "")")
                 break
             case .switchComplete:
                 weakself.showAlert(message: "switch cdn channel complete!")

@@ -376,6 +376,10 @@ public class HostFragment extends BaseFragment {
                 LeaveChannelOptions leaveChannelOptions = new LeaveChannelOptions();
                 leaveChannelOptions.stopMicrophoneRecording = false;
                 engine.leaveChannel(leaveChannelOptions);
+                fl_remote.removeAllViews();
+                fl_remote_2.removeAllViews();
+                fl_remote_3.removeAllViews();
+                remoteViews.clear();
                 engine.startPreview();
                 engine.setDirectCdnStreamingVideoConfiguration(videoEncoderConfiguration);
                 int ret = startCdnStreaming();
