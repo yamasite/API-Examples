@@ -153,7 +153,7 @@ public:
         return mediaDataPlugin.videoFormatter.rotationApplied;
     }
 
-    virtual bool getMirrorApplied() override
+    virtual bool getMirrorApplied(agora::media::base::VIDEO_SOURCE_TYPE type) override
     {
         return mediaDataPlugin.videoFormatter.mirrorApplied;
     }

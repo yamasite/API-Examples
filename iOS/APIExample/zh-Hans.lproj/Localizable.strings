@@ -8,6 +8,7 @@
 
 "Join a channel (Video)" = "实时视频通话/直播";
 "Join a channel (Audio)" = "实时语音通话/直播";
+"Fusion CDN Streaming" = "融合CDN直播";
 "RTMP Streaming" = "RTMP旁路推流";
 "Video Metadata" = "SEI消息";
 "Voice Changer" = "美声/音效";

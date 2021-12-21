@@ -337,7 +337,7 @@ public class ProcessRawData extends BaseFragment implements View.OnClickListener
         }
 
         @Override
-        public boolean getMirrorApplied() {
+        public boolean getMirrorApplied(int i) {
             return false;
         }
     };

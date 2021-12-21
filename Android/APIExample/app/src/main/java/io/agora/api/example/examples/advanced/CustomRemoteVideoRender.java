@@ -495,7 +495,7 @@ public class CustomRemoteVideoRender extends BaseFragment implements View.OnClic
         }
 
         @Override
-        public boolean getMirrorApplied() {
+        public boolean getMirrorApplied(int i) {
             return false;
         }
     };

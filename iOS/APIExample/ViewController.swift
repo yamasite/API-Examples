@@ -31,6 +31,7 @@ class ViewController: AGViewController {
         MenuSection(name: "Anvanced", rows: [
             MenuItem(name: "Group Video Chat".localized, storyboard: "VideoChat", controller: "VideoChat"),
             MenuItem(name: "RTMP Streaming".localized, storyboard: "RTMPStreaming", controller: "RTMPStreaming"),
+            MenuItem(name: "Fusion CDN Streaming".localized, storyboard: "FusionCDN", controller: "FusionCDN"),
             MenuItem(name: "Video Metadata".localized, storyboard: "VideoMetadata", controller: "VideoMetadata".localized),
             MenuItem(name: "Voice Changer".localized, storyboard: "VoiceChanger", controller: ""),
             MenuItem(name: "Custom Audio Source".localized, storyboard: "CustomAudioSource", controller: "CustomAudioSource"),
