@@ -6,11 +6,11 @@ target 'APIExample' do
   use_frameworks!
   pod 'Floaty', '~> 4.2.0'  
   pod 'AGEVideoLayout', '~> 1.0.2'
-  pod 'AgoraRtcEngine_Special_iOS', '3.6.200.202'
+  pod 'AgoraRtcEngine_Special_iOS', '3.6.200.203'
 end
 
 target 'Agora-ScreenShare-Extension' do
-  pod 'AgoraRtcEngine_Special_iOS', '3.6.200.202'
+  pod 'AgoraRtcEngine_Special_iOS', '3.6.200.203'
   use_frameworks!
   
 end
