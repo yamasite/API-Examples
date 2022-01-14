@@ -11,10 +11,6 @@
 		0339BE64251DCA3B007D4FDD /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0339BE63251DCA3B007D4FDD /* GlobalSettings.swift */; };
 		0339BE6D251DEAFC007D4FDD /* PrecallTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0339BE6B251DEAFC007D4FDD /* PrecallTest.swift */; };
 		0339BE72251EF075007D4FDD /* MediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0339BE70251EF074007D4FDD /* MediaPlayer.swift */; };
-		0339BE84251EF728007D4FDD /* AgoraRtcChannelPublishHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0339BE75251EF728007D4FDD /* AgoraRtcChannelPublishHelper.mm */; };
-		0339BE85251EF728007D4FDD /* AgoraMediaPlayerEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0339BE76251EF728007D4FDD /* AgoraMediaPlayerEx.cpp */; };
-		0339BE86251EF728007D4FDD /* AudioCircularBuffer.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0339BE7C251EF728007D4FDD /* AudioCircularBuffer.cc */; };
-		0339BE89251EF728007D4FDD /* AudioFrameObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0339BE83251EF728007D4FDD /* AudioFrameObserver.cpp */; };
 		0339BE9625203293007D4FDD /* ScreenShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0339BE9425203293007D4FDD /* ScreenShare.swift */; };
 		0339BE9D25205B7F007D4FDD /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0339BE9C25205B7F007D4FDD /* ReplayKit.framework */; };
 		0339BEA025205B7F007D4FDD /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0339BE9F25205B7F007D4FDD /* SampleHandler.swift */; };
@@ -150,16 +146,6 @@
 		0339BE63251DCA3B007D4FDD /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
 		0339BE6B251DEAFC007D4FDD /* PrecallTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrecallTest.swift; sourceTree = "<group>"; };
 		0339BE70251EF074007D4FDD /* MediaPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPlayer.swift; sourceTree = "<group>"; };
-		0339BE74251EF728007D4FDD /* AgoraRtcChannelPublishHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgoraRtcChannelPublishHelper.h; sourceTree = "<group>"; };
-		0339BE75251EF728007D4FDD /* AgoraRtcChannelPublishHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AgoraRtcChannelPublishHelper.mm; sourceTree = "<group>"; };
-		0339BE76251EF728007D4FDD /* AgoraMediaPlayerEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AgoraMediaPlayerEx.cpp; sourceTree = "<group>"; };
-		0339BE77251EF728007D4FDD /* AgoraMediaPlayerEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgoraMediaPlayerEx.h; sourceTree = "<group>"; };
-		0339BE79251EF728007D4FDD /* scoped_ptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scoped_ptr.h; sourceTree = "<group>"; };
-		0339BE7A251EF728007D4FDD /* AudioCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCircularBuffer.h; sourceTree = "<group>"; };
-		0339BE7B251EF728007D4FDD /* template_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = template_util.h; sourceTree = "<group>"; };
-		0339BE7C251EF728007D4FDD /* AudioCircularBuffer.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioCircularBuffer.cc; sourceTree = "<group>"; };
-		0339BE82251EF728007D4FDD /* AudioFrameObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioFrameObserver.h; sourceTree = "<group>"; };
-		0339BE83251EF728007D4FDD /* AudioFrameObserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioFrameObserver.cpp; sourceTree = "<group>"; };
 		0339BE9425203293007D4FDD /* ScreenShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenShare.swift; sourceTree = "<group>"; };
 		0339BE9B25205B7F007D4FDD /* Agora-ScreenShare-Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Agora-ScreenShare-Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0339BE9C25205B7F007D4FDD /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
@@ -373,39 +359,6 @@
 				0339BE70251EF074007D4FDD /* MediaPlayer.swift */,
 			);
 			path = MediaPlayer;
-			sourceTree = "<group>";
-		};
-		0339BE73251EF728007D4FDD /* RtcChannelPublishPlugin */ = {
-			isa = PBXGroup;
-			children = (
-				0339BE74251EF728007D4FDD /* AgoraRtcChannelPublishHelper.h */,
-				0339BE75251EF728007D4FDD /* AgoraRtcChannelPublishHelper.mm */,
-				0339BE76251EF728007D4FDD /* AgoraMediaPlayerEx.cpp */,
-				0339BE77251EF728007D4FDD /* AgoraMediaPlayerEx.h */,
-				0339BE78251EF728007D4FDD /* utils */,
-				0339BE81251EF728007D4FDD /* AudioFrameObserver */,
-			);
-			path = RtcChannelPublishPlugin;
-			sourceTree = "<group>";
-		};
-		0339BE78251EF728007D4FDD /* utils */ = {
-			isa = PBXGroup;
-			children = (
-				0339BE79251EF728007D4FDD /* scoped_ptr.h */,
-				0339BE7A251EF728007D4FDD /* AudioCircularBuffer.h */,
-				0339BE7B251EF728007D4FDD /* template_util.h */,
-				0339BE7C251EF728007D4FDD /* AudioCircularBuffer.cc */,
-			);
-			path = utils;
-			sourceTree = "<group>";
-		};
-		0339BE81251EF728007D4FDD /* AudioFrameObserver */ = {
-			isa = PBXGroup;
-			children = (
-				0339BE82251EF728007D4FDD /* AudioFrameObserver.h */,
-				0339BE83251EF728007D4FDD /* AudioFrameObserver.cpp */,
-			);
-			path = AudioFrameObserver;
 			sourceTree = "<group>";
 		};
 		0339BE9225203293007D4FDD /* ScreenShare */ = {
@@ -724,7 +677,6 @@
 			isa = PBXGroup;
 			children = (
 				0364C1FF2551B19800C6C0AE /* ARKit */,
-				0339BE73251EF728007D4FDD /* RtcChannelPublishPlugin */,
 				036CBA4025198E9100D74FAD /* CustomEncryption */,
 				036C42B924D5853200A59000 /* RawDataApi */,
 				036C42AA24D292A700A59000 /* ExternalVideo */,
@@ -1106,14 +1058,11 @@
 				03F8733224C8696600EDB1A3 /* EntryViewController.swift in Sources */,
 				0371D8AE250B4A2C00C0DD61 /* JoinChannelAudio.swift in Sources */,
 				033A9EFC252D61E200BC26E1 /* CustomVideoRender.swift in Sources */,
-				0339BE84251EF728007D4FDD /* AgoraRtcChannelPublishHelper.mm in Sources */,
 				033A9F09252D61FC00BC26E1 /* RTMPStreaming.swift in Sources */,
 				033A9EEA252D5F5E00BC26E1 /* JoinMultiChannel.swift in Sources */,
 				0339BE64251DCA3B007D4FDD /* GlobalSettings.swift in Sources */,
 				576EA57A25ADC4A1000B3D79 /* VideoChat.swift in Sources */,
-				0339BE85251EF728007D4FDD /* AgoraMediaPlayerEx.cpp in Sources */,
 				0364C1FC2551AD6D00C6C0AE /* ARKit.swift in Sources */,
-				0339BE89251EF728007D4FDD /* AudioFrameObserver.cpp in Sources */,
 				8407E0942472320800AC5DE8 /* (null) in Sources */,
 				036C42B524D2A3C600A59000 /* AgoraMetalRender.swift in Sources */,
 				03DF1D9324CFC29700DF7151 /* ExternalAudio.mm in Sources */,
@@ -1136,7 +1085,6 @@
 				03D13C0124488F1F00B599B3 /* KeyCenter.swift in Sources */,
 				03BEED08251C35E7005E78F4 /* AudioMixing.swift in Sources */,
 				03DF1D9424CFC29700DF7151 /* AudioController.m in Sources */,
-				0339BE86251EF728007D4FDD /* AudioCircularBuffer.cc in Sources */,
 				5771635E264536BA0072DE96 /* CustomPcmAudioSource.swift in Sources */,
 				036C42AC24D292A700A59000 /* AgoraCameraSourceMediaIO.swift in Sources */,
 				03DF1D9024CFC29700DF7151 /* AudioWriteToFile.m in Sources */,
@@ -1434,10 +1382,10 @@
 			baseConfigurationReference = FAAC2AEE355D103B9E8527B5 /* Pods-Agora-ScreenShare-Extension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: Qianze Zhang (3C9KJFP729)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GM72UGLGZW;
+				DEVELOPMENT_TEAM = YS397FG5PA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/APIExample",
@@ -1456,7 +1404,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.agora.api.example.Agora-ScreenShare-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = App;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Agora-ScreenShare-Extension/Agora-ScreenShare-Extension-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1470,10 +1418,10 @@
 			baseConfigurationReference = 92EACE913B50B28F1588FE03 /* Pods-Agora-ScreenShare-Extension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: Qianze Zhang (3C9KJFP729)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GM72UGLGZW;
+				DEVELOPMENT_TEAM = YS397FG5PA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/APIExample",
@@ -1492,7 +1440,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.agora.api.example.Agora-ScreenShare-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = App;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Agora-ScreenShare-Extension/Agora-ScreenShare-Extension-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1623,10 +1571,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: Qianze Zhang (3C9KJFP729)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GM72UGLGZW;
+				DEVELOPMENT_TEAM = YS397FG5PA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/APIExample",
@@ -1640,7 +1588,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.api.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = App;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "APIExample/APIExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1655,10 +1603,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: Qianze Zhang (3C9KJFP729)";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GM72UGLGZW;
+				DEVELOPMENT_TEAM = YS397FG5PA;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/APIExample",
@@ -1672,7 +1620,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.agora.api.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = App;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "APIExample/APIExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
