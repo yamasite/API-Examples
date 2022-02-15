@@ -124,3 +124,7 @@
 "Stop Video/Audio Test" = "停止音视频测试";
 "push" = "推流";
 "stop" = "停止";
+"Start Share" = "开始屏幕共享";
+"Stop Share" = "停止屏幕共享";
+"Open App Audio" = "打开应用内音频";
+"Close App Audio" = "关闭应用内音频";
