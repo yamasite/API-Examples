@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,14 +51,21 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
 
     private FrameLayout fl_local, fl_remote, fl_remote2;
     private Button join;
+    private Button render1;
+    private Button render2;
+    private Button publish1;
+    private Button publish2;
     private EditText et_channel;
     private RtcEngine engine;
     private int myUid;
     private boolean joined = false;
-    private String channel1;
-    private String channel2;
+    private String channel1 = "testchannel1";
+    private String channel2 = "testchannel2";
     private RtcChannel rtcChannel1;
     private RtcChannel rtcChannel2;
+    private String renderChannelId;
+    private int uid1;
+    private int uid2;
 
     @Nullable
     @Override
@@ -77,6 +85,21 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
         fl_local = view.findViewById(R.id.fl_local);
         fl_remote = view.findViewById(R.id.fl_remote);
         fl_remote2 = view.findViewById(R.id.fl_remote2);
+
+        render1 = view.findViewById(R.id.btn_render1);
+        render2 = view.findViewById(R.id.btn_render2);
+        publish1 = view.findViewById(R.id.btn_publish1);
+        publish2 = view.findViewById(R.id.btn_publish2);
+
+        render1.setText("Render " + channel1);
+        render2.setText("Render " + channel2);
+        publish1.setText("Publish " + channel1);
+        publish2.setText("Publish " + channel2);
+
+        render1.setOnClickListener(this);
+        render2.setOnClickListener(this);
+        publish1.setOnClickListener(this);
+        publish2.setOnClickListener(this);
     }
 
     @Override
@@ -130,8 +153,8 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
                 engine.stopPreview();
                 CommonUtil.hideInputBoard(getActivity(), et_channel);
                 // call when join button hit
-                channel1 = et_channel.getText().toString();
-                channel2 = channel1 + "-2";
+//                channel1 = et_channel.getText().toString();
+//                channel2 = "channel1";
                 // Check permission
                 if (AndPermission.hasPermissions(this, Permission.Group.STORAGE, Permission.Group.MICROPHONE, Permission.Group.CAMERA))
                 {
@@ -176,7 +199,33 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
                 rtcChannel1.leaveChannel();
                 join.setText(getString(R.string.join));
             }
+        } else if (v.getId() == R.id.btn_render1) {
+            setUpRemoteVideo(channel1, uid1);
+        } else if (v.getId() == R.id.btn_render2) {
+            setUpRemoteVideo(channel2, uid2);
+        } else if (v.getId() == R.id.btn_publish1) {
+            rtcChannel2.muteLocalVideoStream(true);
+            rtcChannel1.muteLocalVideoStream(false);
+        } else if (v.getId() == R.id.btn_publish2) {
+            rtcChannel2.muteLocalVideoStream(false);
+            rtcChannel1.muteLocalVideoStream(true);
         }
+    }
+
+    private void setUpRemoteVideo(String channelId, int uid) {
+        TextureView surfaceView = null;
+
+        if (fl_remote.getChildCount() == 0) {
+            // Create render view by RtcEngine
+            surfaceView = RtcEngine.CreateTextureView(getContext());
+            // Add to the remote container
+            fl_remote.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        } else {
+            surfaceView = (TextureView) fl_remote.getChildAt(0);
+        }
+
+        // Setup remote video to render
+        engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_FIT, channelId, uid));
     }
 
     private void setupVideo()
@@ -189,7 +238,8 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
         }
 
         // Create render view by RtcEngine
-        SurfaceView surfaceView = RtcEngine.CreateRendererView(context);
+        TextureView surfaceView = RtcEngine.CreateTextureView(context);
+//        SurfaceView surfaceView = RtcEngine.CreateRendererView(context);
         if(fl_local.getChildCount() > 0)
         {
             fl_local.removeAllViews();
@@ -266,27 +316,44 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
                 super.onUserJoined(rtcChannel, uid, elapsed);
                 Log.i(TAG, "onUserJoined->" + uid);
                 showLongToast(String.format("user %d joined!", uid));
+
+                uid1 = uid;
+
+
                 /**Check if the context is correct*/
                 Context context = getContext();
                 if (context == null) {
                     return;
                 }
-                handler.post(() ->
-                {
-                    /**Display remote video stream*/
-                    SurfaceView surfaceView = null;
-                    if (fl_remote.getChildCount() > 0) {
-                        fl_remote.removeAllViews();
-                    }
-                    // Create render view by RtcEngine
-                    surfaceView = RtcEngine.CreateRendererView(context);
-                    surfaceView.setZOrderMediaOverlay(true);
-                    // Add to the remote container
-                    fl_remote.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-                    // Setup remote video to render
-                    engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_FIT, channel1, uid));
-                });
+//                handler.post(() ->
+//                {
+//                    /**Display remote video stream*/
+//                    TextureView surfaceView = null;
+//                    if (fl_remote.getChildCount() > 0) {
+//                        fl_remote.removeAllViews();
+//                    }
+//
+//                    if (fl_remote.getChildCount() > 0) {
+//                        // Create render view by RtcEngine
+//                        surfaceView = RtcEngine.CreateTextureView(context);
+////                    surfaceView = RtcEngine.CreateRendererView(context);
+////                    surfaceView.setZOrderMediaOverlay(true);
+//                        // Add to the remote container
+//                        fl_remote.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//                    } else {
+//                        surfaceView = (TextureView) fl_remote.getChildAt(0);
+//                    }
+//
+//                    // Create render view by RtcEngine
+////                    surfaceView = RtcEngine.CreateTextureView(context);
+//////                    surfaceView = RtcEngine.CreateRendererView(context);
+//////                    surfaceView.setZOrderMediaOverlay(true);
+////                    // Add to the remote container
+////                    fl_remote.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//
+//                    // Setup remote video to render
+//                    engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_FIT, channel1, uid));
+//                });
             }
         });
         // 3. Configurate mediaOptions
@@ -343,27 +410,31 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
                 super.onUserJoined(rtcChannel, uid, elapsed);
                 Log.i(TAG, "onUserJoined->" + uid);
                 showLongToast(String.format("user %d joined!", uid));
+
+                uid2 = uid;
+
                 /**Check if the context is correct*/
                 Context context = getContext();
                 if (context == null) {
                     return;
                 }
-                handler.post(() ->
-                {
-                    /**Display remote video stream*/
-                    SurfaceView surfaceView = null;
-                    if (fl_remote2.getChildCount() > 0) {
-                        fl_remote2.removeAllViews();
-                    }
-                    // Create render view by RtcEngine
-                    surfaceView = RtcEngine.CreateRendererView(context);
-                    surfaceView.setZOrderMediaOverlay(true);
-                    // Add to the remote container
-                    fl_remote2.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-                    // Setup remote video to render
-                    engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_FIT, channel2, uid));
-                });
+//                handler.post(() ->
+//                {
+//                    /**Display remote video stream*/
+//                    TextureView surfaceView = null;
+//                    if (fl_remote2.getChildCount() > 0) {
+//                        fl_remote2.removeAllViews();
+//                    }
+//                    // Create render view by RtcEngine
+////                    surfaceView = RtcEngine.CreateRendererView(cont?ext);
+//                    surfaceView = RtcEngine.CreateTextureView(context);
+////                    surfaceView.setZOrderMediaOverlay(true);
+//                    // Add to the remote container
+//                    fl_remote2.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//
+//                    // Setup remote video to render
+//                    engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_FIT, channel2, uid));
+//                });
             }
         });
         // 3. Configurate mediaOptions
@@ -543,22 +614,23 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
             if (context == null) {
                 return;
             }
-            handler.post(() ->
-            {
-                /**Display remote video stream*/
-                SurfaceView surfaceView = null;
-                if (fl_remote.getChildCount() > 0) {
-                    fl_remote.removeAllViews();
-                }
-                // Create render view by RtcEngine
-                surfaceView = RtcEngine.CreateRendererView(context);
-                surfaceView.setZOrderMediaOverlay(true);
-                // Add to the remote container
-                fl_remote.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-                // Setup remote video to render
-                engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_FIT, uid));
-            });
+//            handler.post(() ->
+//            {
+//                /**Display remote video stream*/
+//                TextureView surfaceView = null;
+//                if (fl_remote.getChildCount() > 0) {
+//                    fl_remote.removeAllViews();
+//                }
+//                // Create render view by RtcEngine
+////                surfaceView = RtcEngine.CreateRendererView(context);
+//                surfaceView = RtcEngine.CreateTextureView(context);
+////                surfaceView.setZOrderMediaOverlay(true);
+//                // Add to the remote container
+//                fl_remote.addView(surfaceView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//
+//                // Setup remote video to render
+//                engine.setupRemoteVideo(new VideoCanvas(surfaceView, RENDER_MODE_FIT, uid));
+//            });
         }
 
         /**
@@ -578,15 +650,15 @@ public class JoinMultipleChannel extends BaseFragment implements View.OnClickLis
         public void onUserOffline(int uid, int reason) {
             Log.i(TAG, String.format("user %d offline! reason:%d", uid, reason));
             showLongToast(String.format("user %d offline! reason:%d", uid, reason));
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    /**Clear render view
-                     Note: The video will stay at its last frame, to completely remove it you will need to
-                     remove the SurfaceView from its parent*/
-                    engine.setupRemoteVideo(new VideoCanvas(null, RENDER_MODE_HIDDEN, uid));
-                }
-            });
+//            handler.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    /**Clear render view
+//                     Note: The video will stay at its last frame, to completely remove it you will need to
+//                     remove the SurfaceView from its parent*/
+//                    engine.setupRemoteVideo(new VideoCanvas(null, RENDER_MODE_HIDDEN, uid));
+//                }
+//            });
         }
     };
 }
