@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by APIExample.rc
+// Microsoft Visual C++ 生成的包含文件。
+// 供 APIExample.rc 使用
 //
 #define IDM_ABOUTBOX                    0x0010
 #define IDD_ABOUTBOX                    100
@@ -138,9 +138,11 @@
 #define IDC_CHK_TRANS_CODING            1054
 #define IDC_CHECK_LOOPBACK              1054
 #define IDC_CHECK_PUBLISH_AUDIO         1054
+#define IDC_CHECK_MUTE_RECORD           1054
 #define IDC_STATIC_ADUIO_PROFILE        1055
 #define IDC_CHK_REPLACE_MICROPHONE      1055
 #define IDC_CHECK_PUBLISH_VIDEO         1055
+#define IDC_CHECK_MUTE_PLAYBACK         1055
 #define IDC_STATIC_ADUIO_SCENARIO       1056
 #define IDC_COMBO_AUDIO_PROFILE         1057
 #define IDC_STATIC_CAMERA               1057

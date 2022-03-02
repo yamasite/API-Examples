@@ -140,4 +140,8 @@ public:
 	afx_msg void OnBnClickedButtonCamera2();
 	afx_msg void OnEchoTest1();
 	afx_msg void OnEchoTest2();
+	afx_msg void OnBnClickedCheckMuteRecord();
+	CButton m_chkRecordMute;
+	afx_msg void OnBnClickedCheckMutePlayback();
+	CButton m_chkPlayback;
 };

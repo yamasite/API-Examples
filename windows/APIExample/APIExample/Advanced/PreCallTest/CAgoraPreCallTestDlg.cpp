@@ -37,6 +37,8 @@ void CAgoraPreCallTestDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_STATIC_VIDEO, m_staVideoArea);
 	DDX_Control(pDX, IDC_LIST_INFO_BROADCASTING, m_lstInfo);
 	DDX_Control(pDX, IDC_STATIC_DETAIL, m_staDetails);
+	DDX_Control(pDX, IDC_CHECK_MUTE_RECORD, m_chkRecordMute);
+	DDX_Control(pDX, IDC_CHECK_MUTE_PLAYBACK, m_chkPlayback);
 }
 
 
@@ -54,6 +56,8 @@ BEGIN_MESSAGE_MAP(CAgoraPreCallTestDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_BN_CLICKED(IDC_BUTTON_ECHO_TEST1, &CAgoraPreCallTestDlg::OnEchoTest1)
 	ON_BN_CLICKED(IDC_BUTTON_ECHO_TEST2, &CAgoraPreCallTestDlg::OnEchoTest2)
+	ON_BN_CLICKED(IDC_CHECK_MUTE_RECORD, &CAgoraPreCallTestDlg::OnBnClickedCheckMuteRecord)
+	ON_BN_CLICKED(IDC_CHECK_MUTE_PLAYBACK, &CAgoraPreCallTestDlg::OnBnClickedCheckMutePlayback)
 END_MESSAGE_MAP()
 
 //init ctrl text.
@@ -417,5 +421,29 @@ void CAgoraPreCallTestDlg::OnEchoTest2()
 		m_rtcEngine->stopEchoTest();
 		m_echoTest = false;
 		m_btnEchoTest2.SetWindowText(PerCallTestCtrlStartEchoTest);
+	}
+}
+
+
+void CAgoraPreCallTestDlg::OnBnClickedCheckMuteRecord()
+{
+	if (m_audioDeviceManager && *(m_audioDeviceManager)) {
+		(*m_audioDeviceManager)->setRecordingDeviceMute(m_chkRecordMute.GetCheck());
+		if(m_chkRecordMute.GetCheck())
+			m_lstInfo.InsertString(m_lstInfo.GetCount(), _T("setRecordingDeviceMute(true)"));
+		else
+			m_lstInfo.InsertString(m_lstInfo.GetCount(), _T("setRecordingDeviceMute(false)"));
+	}
+}
+
+
+void CAgoraPreCallTestDlg::OnBnClickedCheckMutePlayback()
+{
+	if (m_audioDeviceManager && *(m_audioDeviceManager)) {
+		(*m_audioDeviceManager)->setPlaybackDeviceMute(m_chkPlayback.GetCheck());
+		if (m_chkPlayback.GetCheck())
+			m_lstInfo.InsertString(m_lstInfo.GetCount(), _T("setPlaybackDeviceMute(true)"));
+		else
+			m_lstInfo.InsertString(m_lstInfo.GetCount(), _T("setPlaybackDeviceMute(false)"));
 	}
 }
